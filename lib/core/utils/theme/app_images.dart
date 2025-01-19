@@ -6,4 +6,5 @@ class AppImages {
   static const logoInside='assets/images/logo_inside.svg';
   static const profileIcon='assets/images/profile_icon.svg';
   static const calendarIcon='assets/images/calendar_icon.svg';
+  static const addImageIcon='assets/images/add_image_icon.svg';
 }

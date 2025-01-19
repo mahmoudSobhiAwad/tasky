@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/constants/var_contstant.dart';
+import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/features/home/presentation/view/widgets/custom_filter_type.dart';
 import 'package:tasky/features/home/presentation/view/widgets/home_app_bar.dart';
 import 'package:tasky/features/home/presentation/view/widgets/one_task_item.dart';
+import 'package:tasky/features/task_details/presentation/views/details_view.dart';
 
 class HomeBody extends StatelessWidget {
   const HomeBody({
@@ -41,7 +43,7 @@ class HomeBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        // context.push(DetailsView());
+                         context.push(TaskDetailsView());
                       },
                       child: OneTaskItem());
                 },

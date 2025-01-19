@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
+import 'package:tasky/features/create_edit_task/presentation/view/create_task_view.dart';
 
 class CustomFloatingButtons extends StatelessWidget {
   const CustomFloatingButtons({
@@ -24,7 +26,9 @@ class CustomFloatingButtons extends StatelessWidget {
           ),
         ),
         FloatingActionButton(
-          onPressed: null,
+          onPressed: () {
+            context.push(CreateTaskView());
+          },
           heroTag: 'fab2',
           shape: CircleBorder(),
           backgroundColor: AppColor.primary100,

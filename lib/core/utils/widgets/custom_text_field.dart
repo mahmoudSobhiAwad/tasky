@@ -33,7 +33,8 @@ class CustomTextFormField extends StatelessWidget {
       this.enabled = true,
       this.headerText,
       this.isReadOnly = false,
-      this.headerTextStyle});
+      this.headerTextStyle,
+      this.spacing});
   final Widget? labelWidget;
   final double? borderRadius;
   final String? Function(String? value)? validator;
@@ -46,6 +47,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextStyle? suffixTextStyle;
   final Widget? prefixWidget;
   final int? maxLine;
+  final double? spacing;
   final TextInputType? textInputType;
   final bool enableFocusBorder;
   final TextEditingController? controller;
@@ -65,15 +67,18 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      spacing: spacing??0,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (headerText != null)
           Text(
             headerText ?? "",
-            style: headerTextStyle,
+            style: headerTextStyle ??
+                AppFontStyle.regular12.copyWith(color: AppColor.grayPurple100),
           ),
         TextFormField(
+          
           readOnly: isReadOnly,
           enabled: enabled,
           obscureText: isObeseureText,
@@ -87,6 +92,7 @@ class CustomTextFormField extends StatelessWidget {
           style: textStyle,
           onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
+            alignLabelWithHint: true,
             labelText: label,
             labelStyle: labelStyle ??
                 AppFontStyle.regular14.copyWith(color: AppColor.gray13),
