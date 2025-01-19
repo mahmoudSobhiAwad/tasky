@@ -39,7 +39,11 @@ class HomeBody extends StatelessWidget {
                 controller: _scrollController,
                 padding: EdgeInsets.all(0),
                 itemBuilder: (context, index) {
-                  return OneTaskItem();
+                  return InkWell(
+                      onTap: () {
+                        // context.push(DetailsView());
+                      },
+                      child: OneTaskItem());
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 5,
