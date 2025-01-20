@@ -3,7 +3,7 @@ import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/custom_push_button.dart';
+import 'package:tasky/core/widgets/custom_push_button.dart';
 import 'package:tasky/features/login/presentation/view/login_view.dart';
 import 'package:tasky/features/on_boarding/data/constants.dart';
 

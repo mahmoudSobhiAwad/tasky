@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/widgets/custom_network_img.dart';
+import 'package:tasky/core/widgets/custom_network_img.dart';
 import 'package:tasky/features/home/presentation/view/widgets/subtitle_task_item.dart';
 import 'package:tasky/features/home/presentation/view/widgets/title_task_item.dart';
 import 'package:tasky/features/home/presentation/view/widgets/trailing_task_item.dart';
@@ -20,5 +20,3 @@ class OneTaskItem extends StatelessWidget {
     );
   }
 }
-
-

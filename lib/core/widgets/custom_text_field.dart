@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/custom_outline_border.dart';
+import 'package:tasky/core/widgets/custom_outline_border.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField(
@@ -67,7 +67,7 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: spacing??0,
+      spacing: spacing ?? 0,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -78,7 +78,6 @@ class CustomTextFormField extends StatelessWidget {
                 AppFontStyle.regular12.copyWith(color: AppColor.grayPurple100),
           ),
         TextFormField(
-          
           readOnly: isReadOnly,
           enabled: enabled,
           obscureText: isObeseureText,

@@ -32,7 +32,8 @@ class CustomPushButton extends StatelessWidget {
             children: [
               Text(
                 title,
-                style:textStyle?? AppFontStyle.bold19.copyWith(color: AppColor.white100),
+                style: textStyle ??
+                    AppFontStyle.bold19.copyWith(color: AppColor.white100),
               ),
               if (enableArrow) SvgPicture.asset(AppImages.arrowRight),
             ],

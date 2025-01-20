@@ -29,6 +29,7 @@ class HomeBody extends StatelessWidget {
               style: AppFontStyle.bold16.copyWith(color: AppColor.darkGray60)),
           Wrap(
             spacing: 10,
+            runSpacing: 10,
             children: [
               ...List.generate(filterList.length, (index) {
                 return CustomFilterType(
@@ -43,7 +44,7 @@ class HomeBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                         context.push(TaskDetailsView());
+                        context.push(TaskDetailsView());
                       },
                       child: OneTaskItem());
                 },

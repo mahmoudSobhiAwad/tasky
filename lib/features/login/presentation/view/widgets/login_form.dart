@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/custom_push_button.dart';
-import 'package:tasky/core/utils/widgets/custom_rich_text.dart';
-import 'package:tasky/core/utils/widgets/custom_text_field.dart';
+import 'package:tasky/core/widgets/custom_push_button.dart';
+import 'package:tasky/core/widgets/custom_rich_text.dart';
+import 'package:tasky/core/widgets/custom_text_field.dart';
 import 'package:tasky/features/home/presentation/view/home_view.dart';
 import 'package:tasky/features/login/presentation/view/widgets/phone_from.dart';
 import 'package:tasky/features/sign_up/presentation/view/sign_up_view.dart';
@@ -37,7 +37,7 @@ class LoginForm extends StatelessWidget {
         ),
         CustomPushButton(
           title: 'Sign In',
-          onTap:()=> context.push(HomeView()),
+          onTap: () => context.push(HomeView()),
           textStyle: AppFontStyle.bold16.copyWith(color: AppColor.white100),
         ),
         Center(

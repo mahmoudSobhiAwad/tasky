@@ -21,8 +21,11 @@ class HavingAccountLoginOrSignUp extends StatelessWidget {
       children: [
         TextSpan(
           text: actionText,
-          style: AppFontStyle.bold14.copyWith(color: AppColor.primary100)
-              .copyWith(decoration: TextDecoration.underline,decorationColor: AppColor.primary100),
+          style: AppFontStyle.bold14
+              .copyWith(color: AppColor.primary100)
+              .copyWith(
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColor.primary100),
           recognizer: TapGestureRecognizer()..onTap = onTapActionText,
         ),
       ],

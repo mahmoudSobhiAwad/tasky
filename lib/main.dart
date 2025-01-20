@@ -28,12 +28,12 @@ class _TaskyState extends State<Tasky> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: AppColor.white100,
-        useMaterial3: true,
-        iconButtonTheme: IconButtonThemeData(style: ButtonStyle(
-          iconColor: WidgetStatePropertyAll<Color>(AppColor.black100)
-        ))
-      ),
+          scaffoldBackgroundColor: AppColor.white100,
+          useMaterial3: true,
+          iconButtonTheme: IconButtonThemeData(
+              style: ButtonStyle(
+                  iconColor:
+                      WidgetStatePropertyAll<Color>(AppColor.black100)))),
       home: const OnBoardingView(),
     );
   }

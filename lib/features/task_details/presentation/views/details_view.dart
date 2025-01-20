@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/common_app_bar.dart';
-import 'package:tasky/core/utils/widgets/custom_container_decoration.dart';
-import 'package:tasky/core/utils/widgets/custom_network_img.dart';
+import 'package:tasky/core/widgets/common_app_bar.dart';
+import 'package:tasky/core/widgets/custom_container_decoration.dart';
+import 'package:tasky/core/widgets/custom_network_img.dart';
 import 'package:tasky/features/home/presentation/view/widgets/subtitle_task_item.dart';
 import 'package:tasky/features/home/presentation/view/widgets/trailing_task_item.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
@@ -74,8 +74,3 @@ class _TaskDetailsViewState extends State<TaskDetailsView> {
     ));
   }
 }
-
-
-
-
-

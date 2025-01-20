@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tasky/core/utils/widgets/custom_boarding_image.dart';
+import 'package:tasky/core/widgets/custom_boarding_image.dart';
 import 'package:tasky/features/login/presentation/view/widgets/login_form.dart';
 
 class LoginView extends StatelessWidget {

@@ -17,7 +17,7 @@ class CustomHomeAppBar extends StatelessWidget {
         SvgPicture.asset(AppImages.logoInside),
         Spacer(),
         IconButton(
-          onPressed: ()=>context.push(ProfileView()),
+          onPressed: () => context.push(ProfileView()),
           icon: SvgPicture.asset(AppImages.profileIcon),
         ),
         IconButton(

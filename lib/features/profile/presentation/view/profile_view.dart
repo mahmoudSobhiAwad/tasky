@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
-import 'package:tasky/core/utils/widgets/common_app_bar.dart';
+import 'package:tasky/core/widgets/common_app_bar.dart';
 import 'package:tasky/features/profile/presentation/view/widgets/custom_profile_item.dart';
 
 class ProfileView extends StatelessWidget {

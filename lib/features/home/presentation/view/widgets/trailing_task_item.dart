@@ -43,7 +43,7 @@ class PopBodyBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         itemBuilder: (context, index) {
           return item[index];
         },

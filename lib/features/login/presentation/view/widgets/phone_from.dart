@@ -2,7 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/custom_text_field.dart';
+import 'package:tasky/core/widgets/custom_text_field.dart';
 
 class PhoneFormField extends StatelessWidget {
   const PhoneFormField({

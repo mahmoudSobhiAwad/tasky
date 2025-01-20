@@ -3,10 +3,10 @@ import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
-import 'package:tasky/core/utils/widgets/custom_boarding_image.dart';
-import 'package:tasky/core/utils/widgets/custom_push_button.dart';
-import 'package:tasky/core/utils/widgets/custom_rich_text.dart';
-import 'package:tasky/core/utils/widgets/custom_text_field.dart';
+import 'package:tasky/core/widgets/custom_boarding_image.dart';
+import 'package:tasky/core/widgets/custom_push_button.dart';
+import 'package:tasky/core/widgets/custom_rich_text.dart';
+import 'package:tasky/core/widgets/custom_text_field.dart';
 import 'package:tasky/features/login/presentation/view/widgets/phone_from.dart';
 
 class SignUpView extends StatelessWidget {
@@ -55,8 +55,8 @@ class SignUpView extends StatelessWidget {
                   CustomTextFormField(label: 'Password...'),
                   CustomPushButton(
                     title: 'Sign up',
-                    textStyle: AppFontStyle.bold16
-                        .copyWith(color: AppColor.white100),
+                    textStyle:
+                        AppFontStyle.bold16.copyWith(color: AppColor.white100),
                   ),
                   Center(
                     child: HavingAccountLoginOrSignUp(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:tasky/core/utils/theme/app_images.dart';
-import 'package:tasky/core/utils/widgets/common_app_bar.dart';
-import 'package:tasky/core/utils/widgets/custom_container_decoration.dart';
-import 'package:tasky/core/utils/widgets/custom_push_button.dart';
-import 'package:tasky/core/utils/widgets/custom_text_field.dart';
+import 'package:tasky/core/widgets/common_app_bar.dart';
+import 'package:tasky/core/widgets/custom_container_decoration.dart';
+import 'package:tasky/core/widgets/custom_push_button.dart';
+import 'package:tasky/core/widgets/custom_text_field.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/dashed_add_image.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
 
