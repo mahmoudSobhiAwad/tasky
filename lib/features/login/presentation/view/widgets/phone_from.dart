@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/core/widgets/custom_text_field.dart';
@@ -21,6 +22,9 @@ class PhoneFormField extends StatelessWidget {
     return CustomTextFormField(
       controller: phoneController,
       validator: validator,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       textInputType: TextInputType.phone,
       prefixWidget: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3),

@@ -40,7 +40,11 @@ class ServerFailure extends Failure {
       return ServerFailure(errMessage: data['message']);
     } else if (statusCode == 401) {
       return ServerFailure(errMessage: data['message'], statusCode: 401);
-    } else {
+    } 
+    else if (statusCode == 422) {
+      return ServerFailure(errMessage: data['message'], statusCode: 422);
+    }
+    else {
       return ServerFailure(
           errMessage: "Server may be not exist at that moment",
           statusCode: statusCode);
