@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:tasky/features/home/presentation/view/widgets/custom_floating_buttons.dart';
+import 'package:tasky/features/home/presentation/view/widgets/dialog_stay_exist.dart';
 import 'package:tasky/features/home/presentation/view/widgets/home_body.dart';
 
 class HomeView extends StatefulWidget {
@@ -46,12 +48,27 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: HomeBody(scrollController: _scrollController),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: _isFabVisible ? CustomFloatingButtons() : null,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult:(didPop, result) async{
+         if (didPop) {
+          return;
+        }
+        bool checkAfter = false;
+        checkAfter = await showDialogToStayOrExit(context) ?? false;
+
+        if (checkAfter && context.mounted) {
+          SystemNavigator.pop();
+        }
+      },
+      child: SafeArea(
+        child: Scaffold(
+          body: HomeBody(scrollController: _scrollController),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          floatingActionButton: _isFabVisible ? CustomFloatingButtons() : null,
+        ),
       ),
     );
   }
 }
+

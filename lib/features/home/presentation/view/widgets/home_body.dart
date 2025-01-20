@@ -11,10 +11,10 @@ import 'package:tasky/features/task_details/presentation/views/details_view.dart
 class HomeBody extends StatelessWidget {
   const HomeBody({
     super.key,
-    required ScrollController scrollController,
-  }) : _scrollController = scrollController;
+    required this.scrollController,
+  });
 
-  final ScrollController _scrollController;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class HomeBody extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
-                controller: _scrollController,
+                controller: scrollController,
                 padding: EdgeInsets.all(0),
                 itemBuilder: (context, index) {
                   return InkWell(

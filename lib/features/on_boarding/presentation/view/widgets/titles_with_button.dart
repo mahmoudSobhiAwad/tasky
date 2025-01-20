@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
+import 'package:tasky/core/utils/functions/secure_shared_pref.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/core/widgets/custom_push_button.dart';
@@ -40,8 +41,11 @@ class TitlesWithButton extends StatelessWidget {
         CustomPushButton(
           title: "Let’s Start",
           enableArrow: true,
-          onTap: () {
-            context.push(LoginView());
+          onTap: () async {
+            await SecureSharedPref.putValue(key: 'skip', value: 'value');
+            if (context.mounted) {
+              context.push(LoginView());
+            }
           },
         ),
       ],

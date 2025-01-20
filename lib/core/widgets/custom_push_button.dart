@@ -12,20 +12,22 @@ class CustomPushButton extends StatelessWidget {
     this.onTap,
     this.textStyle,
     this.isLoading = false,
+    this.backgroundColor,
   });
   final bool isLoading;
   final String title;
   final bool enableArrow;
   final void Function()? onTap;
   final TextStyle? textStyle;
+  final Color? backgroundColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12),
-        decoration: const BoxDecoration(
-            color: AppColor.primary100,
+        decoration:  BoxDecoration(
+            color:backgroundColor?? AppColor.primary100,
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: Row(
