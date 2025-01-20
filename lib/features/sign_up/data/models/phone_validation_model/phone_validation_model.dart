@@ -3,7 +3,7 @@ import 'format.dart';
 
 class PhoneValidationModel {
   String? phone;
-  bool? valid;
+  bool valid;
   FormatPhone? format;
   Country? country;
   String? location;
@@ -12,7 +12,7 @@ class PhoneValidationModel {
 
   PhoneValidationModel({
     this.phone,
-    this.valid,
+    this.valid = false,
     this.format,
     this.country,
     this.location,
@@ -23,7 +23,7 @@ class PhoneValidationModel {
   factory PhoneValidationModel.fromMap(Map<String, dynamic> data) {
     return PhoneValidationModel(
       phone: data['phone'] as String?,
-      valid: data['valid'] as bool?,
+      valid: data['valid'] as bool,
       format: data['format'] == null
           ? null
           : FormatPhone.fromMap(data['format'] as Map<String, dynamic>),

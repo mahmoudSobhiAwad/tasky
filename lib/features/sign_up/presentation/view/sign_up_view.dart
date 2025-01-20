@@ -1,76 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
+import 'package:tasky/core/utils/functions/service_locator.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/core/widgets/custom_boarding_image.dart';
-import 'package:tasky/core/widgets/custom_push_button.dart';
 import 'package:tasky/core/widgets/custom_rich_text.dart';
-import 'package:tasky/core/widgets/custom_text_field.dart';
-import 'package:tasky/features/login/presentation/view/widgets/phone_from.dart';
+import 'package:tasky/core/widgets/custom_snack_bar.dart';
+import 'package:tasky/features/sign_up/data/repos/phone_validation_repo_imp.dart';
+import 'package:tasky/features/sign_up/presentation/manager/cubit/sign_up_cubit.dart';
+import 'package:tasky/features/sign_up/presentation/view/widgets/sign_up_form.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomBoardinImage(
-              height: context.screenHeight * 0.2,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+    return BlocProvider(
+      create: (context) => SignUpCubit(
+          phoneValidationRepoImp: getIt.get<PhoneValidationRepoImp>()),
+      child: SafeArea(
+        child: Scaffold(
+          body: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 10),
+            child: BlocListener<SignUpCubit, SignUpState>(
+              listener: (context, state) {
+                if (state is PhoneValidationFailureState) {
+                  showCustomSnackBar(context, state.errMessage ?? "",
+                      backgroundColor: AppColor.red100);
+                } else if (state is PhoneValidationSuccessState) {
+                  showCustomSnackBar(
+                    context,
+                    "Phone Number Validated Successfully",
+                  );
+                }
+              },
               child: Column(
-                spacing: 16,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      'Sign Up',
-                      style: AppFontStyle.bold24,
-                      textAlign: TextAlign.start,
+                  CustomBoardinImage(
+                    height: context.screenHeight * 0.2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 24,
+                      children: [
+                        Text(
+                          'Sign Up',
+                          style: AppFontStyle.bold24,
+                        ),
+                        const SignUpForm(),
+                        Center(
+                          child: HavingAccountLoginOrSignUp(
+                              mainText: 'Already have any account? ',
+                              actionText: 'Sign in',
+                              onTapActionText: () {
+                                context.pop();
+                              }),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  CustomTextFormField(label: 'Name...'),
-                  PhoneFormField(),
-                  CustomTextFormField(label: 'Years of experience...'),
-                  CustomTextFormField(
-                      isReadOnly: true,
-                      controller: TextEditingController(
-                          text: 'Choose experience Level'),
-                      suffixWidget: PopupMenuButton(
-                          icon: Icon(Icons.keyboard_arrow_down_rounded),
-                          itemBuilder: (context) {
-                            return [];
-                          })),
-                  CustomTextFormField(label: 'Address...'),
-                  CustomTextFormField(label: 'Password...'),
-                  CustomPushButton(
-                    title: 'Sign up',
-                    textStyle:
-                        AppFontStyle.bold16.copyWith(color: AppColor.white100),
-                  ),
-                  Center(
-                    child: HavingAccountLoginOrSignUp(
-                        mainText: 'Already have any account? ',
-                        actionText: 'Sign in',
-                        onTapActionText: () {
-                          context.pop();
-                        }),
-                  ),
-                  SizedBox(),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

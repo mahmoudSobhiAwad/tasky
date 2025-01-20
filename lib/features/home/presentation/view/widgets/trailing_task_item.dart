@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:popover/popover.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
+import 'package:tasky/core/widgets/pop_body_builder.dart';
 
 class TrailingOfTaskItem extends StatelessWidget {
   const TrailingOfTaskItem({
@@ -37,21 +38,4 @@ class TrailingOfTaskItem extends StatelessWidget {
   }
 }
 
-class PopBodyBuilder extends StatelessWidget {
-  const PopBodyBuilder({super.key, required this.item});
-  final List<Widget> item;
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        itemBuilder: (context, index) {
-          return item[index];
-        },
-        separatorBuilder: (context, index) {
-          return Divider(
-            color: AppColor.gray13,
-          );
-        },
-        itemCount: 2);
-  }
-}
+

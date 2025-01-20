@@ -11,7 +11,9 @@ class CustomPushButton extends StatelessWidget {
     this.enableArrow = false,
     this.onTap,
     this.textStyle,
+    this.isLoading = false,
   });
+  final bool isLoading;
   final String title;
   final bool enableArrow;
   final void Function()? onTap;
@@ -30,11 +32,16 @@ class CustomPushButton extends StatelessWidget {
             spacing: 8,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                title,
-                style: textStyle ??
-                    AppFontStyle.bold19.copyWith(color: AppColor.white100),
-              ),
+              isLoading
+                  ? CircularProgressIndicator(
+                      color: AppColor.white100,
+                    )
+                  : Text(
+                      title,
+                      style: textStyle ??
+                          AppFontStyle.bold19
+                              .copyWith(color: AppColor.white100),
+                    ),
               if (enableArrow) SvgPicture.asset(AppImages.arrowRight),
             ],
           ),

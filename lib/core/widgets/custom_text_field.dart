@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/core/widgets/custom_outline_border.dart';
@@ -34,7 +35,9 @@ class CustomTextFormField extends StatelessWidget {
       this.headerText,
       this.isReadOnly = false,
       this.headerTextStyle,
-      this.spacing});
+      this.spacing,
+      this.initialValue,
+      this.inputFormatters});
   final Widget? labelWidget;
   final double? borderRadius;
   final String? Function(String? value)? validator;
@@ -55,10 +58,12 @@ class CustomTextFormField extends StatelessWidget {
   final String? label;
   final TextStyle? labelStyle;
   final bool isObeseureText;
+  final List<TextInputFormatter>? inputFormatters;
   final TextInputAction? textInputAction;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final Color? focusBorderColor;
   final FocusNode? focusNode;
+  final String? initialValue;
   final void Function(String?)? onFieldSubmitted;
   final bool enabled; // Add this line to control editability
   final String? headerText;
@@ -78,12 +83,14 @@ class CustomTextFormField extends StatelessWidget {
                 AppFontStyle.regular12.copyWith(color: AppColor.grayPurple100),
           ),
         TextFormField(
+          inputFormatters: inputFormatters,
           readOnly: isReadOnly,
           enabled: enabled,
           obscureText: isObeseureText,
           validator: validator,
           focusNode: focusNode,
           textInputAction: textInputAction,
+          initialValue: initialValue,
           controller: controller,
           maxLines: maxLine,
           keyboardType: textInputType,

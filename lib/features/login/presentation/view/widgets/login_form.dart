@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
@@ -24,7 +25,10 @@ class LoginForm extends StatelessWidget {
           "Login",
           style: AppFontStyle.bold24.copyWith(color: AppColor.black100),
         ),
-        const PhoneFormField(),
+        PhoneFormField(
+          changeCountry: (c){},
+          country: Country.parse('EG'), phoneController: TextEditingController(),
+        ),
         CustomTextFormField(
           label: 'Password',
           labelStyle: AppFontStyle.regular14.copyWith(color: AppColor.gray13),

@@ -7,11 +7,20 @@ import 'package:tasky/core/widgets/custom_text_field.dart';
 class PhoneFormField extends StatelessWidget {
   const PhoneFormField({
     super.key,
+    required this.country,
+    required this.changeCountry,
+    required this.phoneController,
+    this.validator,
   });
-
+  final Country country;
+  final TextEditingController phoneController;
+  final void Function(Country country) changeCountry;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
+      controller: phoneController,
+      validator: validator,
       textInputType: TextInputType.phone,
       prefixWidget: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -30,7 +39,7 @@ class PhoneFormField extends StatelessWidget {
             IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () {
-                  showCountryPicker(context: context, onSelect: (counrty) {});
+                  showCountryPicker(context: context, onSelect: changeCountry);
                 },
                 icon: Icon(
                   Icons.keyboard_arrow_down,
@@ -42,5 +51,3 @@ class PhoneFormField extends StatelessWidget {
     );
   }
 }
-
-Country country = Country.parse('EG');

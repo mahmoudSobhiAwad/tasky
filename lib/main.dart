@@ -1,11 +1,17 @@
+import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:tasky/core/utils/functions/cubit_observer.dart';
+import 'package:tasky/core/utils/functions/service_locator.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/features/on_boarding/presentation/view/on_boarding_view.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await setUp();
+  Bloc.observer = SimpleBlocObserver();
+
   runApp(const Tasky());
 }
 
