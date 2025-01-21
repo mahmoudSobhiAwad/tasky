@@ -10,14 +10,14 @@ class SignUpRepoImp implements SignUpRepo {
   final ApiHandlerImp apiHandlerImp;
   SignUpRepoImp({required this.apiHandlerImp});
   @override
-  Future<Either<Failure, UserSignUpModel>> createAccount(
+  Future<Either<Failure, UserSignAuthModel>> createAccount(
       {required CreateAccountModel createAccModel}) async {
     try {
       final result = await apiHandlerImp.post('auth/register',
           body: createAccModel.toJson());
 
       if (result.statusCode == 201) {
-        return right(UserSignUpModel.fromJson(result.data));
+        return right(UserSignAuthModel.fromJson(result.data));
       }
       return left(ServerFailure(errMessage: 'Error in Parsing'));
     } catch (e) {

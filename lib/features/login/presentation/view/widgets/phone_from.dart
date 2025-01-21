@@ -20,6 +20,7 @@ class PhoneFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTextFormField(
+      maxLine: 1,
       controller: phoneController,
       validator: validator,
       inputFormatters: [

@@ -3,6 +3,7 @@ import 'package:tasky/core/utils/constants/var_contstant.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
+import 'package:tasky/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:tasky/features/home/presentation/view/widgets/custom_filter_type.dart';
 import 'package:tasky/features/home/presentation/view/widgets/home_app_bar.dart';
 import 'package:tasky/features/home/presentation/view/widgets/one_task_item.dart';
@@ -12,9 +13,11 @@ class HomeBody extends StatelessWidget {
   const HomeBody({
     super.key,
     required this.scrollController,
+    required this.cubit,
   });
 
   final ScrollController scrollController;
+  final HomeCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,9 @@ class HomeBody extends StatelessWidget {
         spacing: 16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomHomeAppBar(),
+          CustomHomeAppBar(
+            cubit: cubit,
+          ),
           Text('My Tasks',
               style: AppFontStyle.bold16.copyWith(color: AppColor.darkGray60)),
           Wrap(

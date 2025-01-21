@@ -12,6 +12,7 @@ class CustomDialog extends StatelessWidget {
       this.firstActionName,
       this.secondActionName,
       this.onTapFirstAction,
+      this.isLoading = false,
       this.onTapSecondAction});
   final String mainTitle;
   final String? subTitle;
@@ -20,6 +21,7 @@ class CustomDialog extends StatelessWidget {
   final void Function()? onTapFirstAction;
   final void Function()? onTapSecondAction;
   final Widget? bigIcon;
+  final bool isLoading;
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -58,6 +60,7 @@ class CustomDialog extends StatelessWidget {
                 if (secondActionName != null)
                   Expanded(
                     child: CustomPushButton(
+                      isLoading: isLoading,
                       backgroundColor: AppColor.green,
                       onTap: onTapSecondAction,
                       title: secondActionName!,

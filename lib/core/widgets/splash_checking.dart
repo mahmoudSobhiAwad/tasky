@@ -5,56 +5,55 @@ import 'package:tasky/features/home/presentation/view/home_view.dart';
 import 'package:tasky/features/login/presentation/view/login_view.dart';
 import 'package:tasky/features/on_boarding/presentation/view/on_boarding_view.dart';
 
-class SplashChecking extends StatelessWidget {
+class SplashChecking extends StatefulWidget {
   const SplashChecking({super.key});
-  Future<String?> _checkExist() async {
-    return await SecureSharedPref.getValues(
-      key: accessTokenParam,
-    );
+
+  @override
+  State<SplashChecking> createState() => _SplashCheckingState();
+}
+
+class _SplashCheckingState extends State<SplashChecking> {
+  Widget? _initialView;
+
+  @override
+  void initState() {
+    super.initState();
+    _determineInitialView();
   }
 
-  Future<String?> _skipOnBoarding() async {
-    return await SecureSharedPref.getValues(
-      key: 'skip',
-    );
+  Future<void> _determineInitialView() async {
+    try {
+      final skipOnboarding = await SecureSharedPref.getValues(key: 'skip');
+      if (skipOnboarding == null) {
+        setState(() {
+          _initialView = const OnBoardingView();
+        });
+        return;
+      }
+
+      final accessToken =
+          await SecureSharedPref.getValues(key: accessTokenParam);
+      setState(() {
+        _initialView =
+            accessToken != null ? const HomeView() : const LoginView();
+      });
+    } catch (e) {
+      setState(() {
+        _initialView = const OnBoardingView();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _checkExist(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            if (snapshot.data != null) {
-              return HomeView();
-            } else {
-              return FutureBuilder(
-                  future: _skipOnBoarding(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Scaffold(
-                        body: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    } else if (snapshot.connectionState ==
-                            ConnectionState.done &&
-                        snapshot.data != null) {
-                      return LoginView();
-                    }
-                    return OnBoardingView();
-                  });
-            }
-          } else {
-            return OnBoardingView();
-          }
-        });
+    if (_initialView == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return _initialView!;
   }
 }

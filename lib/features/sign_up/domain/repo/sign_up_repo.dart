@@ -4,5 +4,5 @@ import 'package:tasky/features/sign_up/data/models/create_acc_model.dart';
 import 'package:tasky/features/sign_up/data/models/user_sign_up_model.dart';
 
 abstract class SignUpRepo {
-  Future<Either<Failure, UserSignUpModel>> createAccount({required CreateAccountModel createAccModel});
+  Future<Either<Failure, UserSignAuthModel>> createAccount({required CreateAccountModel createAccModel});
 }

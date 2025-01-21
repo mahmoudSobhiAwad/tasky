@@ -6,7 +6,7 @@ class SecureSharedPref {
       );
   static final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   static Future<void> putValue(
-      {required String key, required String value}) async {
+      {required String key, required String? value}) async {
     await storage.write(key: key, value: value);
   }
 
