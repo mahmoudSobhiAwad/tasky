@@ -35,16 +35,54 @@ class CustomInterceptors extends Interceptor {
       if (newAccessToken != null) {
         await SecureSharedPref.putValue(
             key: accessTokenParam, value: newAccessToken);
-        err.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-        final clonedRequest = await dio.request(err.requestOptions.path,
-            queryParameters: err.requestOptions.queryParameters,
-            data: err.requestOptions.data,
-            options: Options(
-              method: err.requestOptions.method,
-              headers: err.requestOptions.headers,
-            ));
+        err.requestOptions.headers['Authorization'] = 'bearer $newAccessToken';
+
+        dynamic data = err.requestOptions.data;
+        if (data is FormData) {
+          final newFormData = FormData();
+
+          for (var field in data.fields) {
+            newFormData.fields.add(field);
+          }
+
+          for (var file in data.files) {
+            final originalFilePath = data.fields
+                .firstWhere(
+                  (field) => field.key == '_originalFilePath',
+                  orElse: () => MapEntry('key', ''),
+                )
+                .value;
+
+            if (originalFilePath.isNotEmpty) {
+              final newMultipartFile = await MultipartFile.fromFile(
+                originalFilePath,
+                filename: file.value.filename,
+                contentType: file.value.contentType,
+              );
+              newFormData.files.add(MapEntry(file.key, newMultipartFile));
+            } else {
+              throw Exception("Original file path not found for MultipartFile");
+            }
+          }
+
+          data = newFormData;
+        }
+
+        var clonedRequest = await dio.request(
+          err.requestOptions.path,
+          queryParameters: err.requestOptions.queryParameters,
+          data: data,
+          options: Options(
+            method: err.requestOptions.method,
+            headers: err.requestOptions.headers,
+          ),
+        );
+
         return handler.resolve(clonedRequest);
       }
+    }
+    if (err.response?.statusCode == 422) {
+      return handler.next(err);
     }
     super.onError(err, handler);
   }

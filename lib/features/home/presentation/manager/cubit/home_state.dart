@@ -12,4 +12,6 @@ final class LogOutFailureState extends HomeState {
   LogOutFailureState({this.errMessage});
 }
 
+final class RefreshFailedState extends HomeState {}
+
 final class LogOutSuccessState extends HomeState {}

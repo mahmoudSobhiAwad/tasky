@@ -10,8 +10,7 @@ class SecureSharedPref {
     await storage.write(key: key, value: value);
   }
 
-  static Future<String?> getValues(
-      {required String key}) async {
+  static Future<String?> getValues({required String key}) async {
     return await storage.read(
       key: key,
     );

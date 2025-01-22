@@ -23,11 +23,11 @@ class CustomPushButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: isLoading ? null : onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 12),
-        decoration:  BoxDecoration(
-            color:backgroundColor?? AppColor.primary100,
+        decoration: BoxDecoration(
+            color: backgroundColor ?? AppColor.primary100,
             borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Center(
           child: Row(

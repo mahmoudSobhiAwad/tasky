@@ -10,8 +10,8 @@ class HomeRepoImp implements HomeRepo {
   @override
   Future<Either<Failure, bool>> logOut({required String refreshToken}) async {
     try {
-      final result =
-          await apiHandlerImp.post('auth/logout', body: {"token": refreshToken});
+      final result = await apiHandlerImp
+          .post('auth/logout', body: {"token": refreshToken});
       if (result.statusCode == 201) {
         return right(result.data['success'] as bool);
       }

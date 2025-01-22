@@ -65,6 +65,8 @@ class _HomeViewState extends State<HomeView> {
                 backgroundColor: AppColor.red100);
           } else if (state is LogOutSuccessState) {
             context.pushReplacement(LoginView());
+          } else if (state is RefreshFailedState) {
+            context.pushReplacement(LoginView());
           }
         },
         child: PopScope(
@@ -100,4 +102,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-

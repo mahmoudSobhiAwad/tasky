@@ -23,30 +23,31 @@ class SignUpView extends StatelessWidget {
       create: (context) => SignUpCubit(
           phoneValidationRepoImp: getIt.get<PhoneValidationRepoImp>(),
           apiHandlerImp: getIt.get<ApiHandlerImp>()),
-      child: SafeArea(
-        child: Scaffold(
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: 10),
-            child: BlocListener<SignUpCubit, SignUpState>(
-              listener: (context, state) async {
-                if (state is PhoneValidationFailureState) {
-                  showCustomSnackBar(context, state.errMessage ?? "",
-                      backgroundColor: AppColor.red100);
-                } else if (state is PhoneValidationSuccessState) {
-                  showCustomSnackBar(
-                    context,
-                    "Phone Number Validated Successfully",
-                  );
-                } else if (state is SignUpFailureState) {
-                  showCustomSnackBar(context, state.errMessage ?? "",
-                      backgroundColor: AppColor.red100);
-                } else if (state is SignUpSuccessState) {
-                  context.pushReplacement(HomeView());
-                }
-              },
+      child: BlocListener<SignUpCubit, SignUpState>(
+        listener: (context, state) async {
+          if (state is PhoneValidationFailureState) {
+            showCustomSnackBar(context, state.errMessage ?? "",
+                backgroundColor: AppColor.red100);
+          } else if (state is PhoneValidationSuccessState) {
+            showCustomSnackBar(
+              context,
+              "Phone Number Validated Successfully",
+            );
+          } else if (state is SignUpFailureState) {
+            showCustomSnackBar(context, state.errMessage ?? "",
+                backgroundColor: AppColor.red100);
+          } else if (state is SignUpSuccessState) {
+            context.pushReplacement(HomeView());
+          }
+        },
+        child: SafeArea(
+          child: Scaffold(
+            body: SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 10,),
                   CustomBoardinImage(
                     height: context.screenHeight * 0.2,
                   ),

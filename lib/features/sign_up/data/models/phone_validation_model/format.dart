@@ -13,5 +13,4 @@ class FormatPhone {
         'international': international,
         'local': local,
       };
-
 }

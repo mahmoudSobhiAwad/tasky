@@ -118,11 +118,14 @@ class _SignUpFormState extends State<SignUpForm> {
           BlocBuilder<SignUpCubit, SignUpState>(
             builder: (context, state) {
               return CustomPushButton(
-                isLoading: (state is PhoneValidationLoadingState ||state is SignUpLoadingState) ? true : false,
+                isLoading: (state is PhoneValidationLoadingState ||
+                        state is SignUpLoadingState)
+                    ? true
+                    : false,
                 title: 'Sign up',
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<SignUpCubit>().validatePhoneNumber(
+                    context.read<SignUpCubit>().sigUpWitValidation(
                         model: CreateAccountModel(
                             name: nameController.text,
                             address: addressController.text.isEmpty

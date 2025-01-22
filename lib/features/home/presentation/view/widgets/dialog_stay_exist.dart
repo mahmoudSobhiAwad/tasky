@@ -11,7 +11,12 @@ Future<bool?> showDialogToStayOrExit(BuildContext context) {
           bigIcon: CircleAvatar(
             radius: 30,
             backgroundColor: AppColor.primary100,
-            child: Center(child: Icon(Icons.logout_rounded,size:40,color: AppColor.white100,)),
+            child: Center(
+                child: Icon(
+              Icons.logout_rounded,
+              size: 40,
+              color: AppColor.white100,
+            )),
           ),
           mainTitle: "Are you Sure To Exist",
           firstActionName: "Exit",

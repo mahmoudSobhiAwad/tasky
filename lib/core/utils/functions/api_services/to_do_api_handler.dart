@@ -36,13 +36,15 @@ class ApiHandlerImp implements ApiHandler {
   @override
   Future<Response> post(String endPoint,
       {String? url,
-      Map<String, dynamic>? body,
+      Object? body,
+      String? contentType,
       Map<String, dynamic>? queryParameter,
       Map<String, dynamic>? headers}) async {
     final result = await dio.post('${dio.options.baseUrl}$endPoint',
         data: body,
         queryParameters: queryParameter,
         options: Options(
+          contentType: contentType,
           headers: headers,
         ));
     return result;

@@ -31,5 +31,5 @@ class AppColor {
   static const Color purplePale100 = Color(0xFFEBE5FF); // EBE5FF (100%)
   static const Color white36 = Color(0x5CFFFFFF); // FFFFFF (36%)
   static const Color midnight100 = Color(0xFF00060D); // 00060D (100%)
-  static const Color green = Color(0xFF4BD37B);
+  static const Color green = Color(0xFF4BB543);
 }

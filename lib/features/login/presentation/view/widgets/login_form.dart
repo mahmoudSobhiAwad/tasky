@@ -89,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
                     cubit.changePasswordVisibility(isVisible);
                   },
                   icon: Icon(
-                  isVisible?Icons.visibility_off:Icons.visibility,
+                    isVisible ? Icons.visibility_off : Icons.visibility,
                     color: AppColor.gray100,
                   )),
             );

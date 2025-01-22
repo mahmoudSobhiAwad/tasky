@@ -13,8 +13,6 @@ class UserSignAuthModel {
         accessToken: json['access_token'],
         id: json['_id'],
         refreshToken: json['refresh_token'],
-        userName: json['displayName']??'');
+        userName: json['displayName'] ?? '');
   }
 }
-
-

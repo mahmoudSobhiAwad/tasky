@@ -16,31 +16,42 @@ class SignUpCubit extends Cubit<SignUpState> {
       {required this.apiHandlerImp, required this.phoneValidationRepoImp})
       : super(SignUpCubitInitial());
 
-  Future<void> validatePhoneNumber({required CreateAccountModel model}) async {
-    emit(PhoneValidationLoadingState());
-    String phoneNumberWithCode = model.phone;
+  Future<void> sigUpWitValidation({required CreateAccountModel model}) async {
+    emit(SignUpLoadingState());
+    bool? value = await validatePhoneNumber(phoneNumberWithCode: model.phone);
+    if (value != null && value) {
+      await createAccount(model);
+    }
+  }
+
+  Future<bool?> validatePhoneNumber(
+      {required String phoneNumberWithCode}) async {
     final result = await phoneValidationRepoImp.validate(phoneNumberWithCode);
     result.fold((error) {
       emit(PhoneValidationFailureState(errMessage: error.errMessage));
+      return null;
     }, (phoneModel) async {
       if (phoneModel.valid) {
-        await createAccount(model);
+        return true;
       } else {
         emit(PhoneValidationFailureState(
             errMessage: 'Phone Validation Failed !!'));
+        return false;
       }
     });
+    return null;
   }
 
   Future<void> createAccount(CreateAccountModel model) async {
-    emit(SignUpLoadingState());
     final result = await SignUpRepoImp(apiHandlerImp: apiHandlerImp)
         .createAccount(createAccModel: model);
     result.fold((error) {
       emit(SignUpFailureState(errMessage: error.errMessage));
     }, (userModel) async {
-      await SecureSharedPref.putValue(key:accessTokenParam ,value: userModel.accessToken);
-      await SecureSharedPref.putValue(key:refreshTokenParam ,value: userModel.refreshToken);
+      await SecureSharedPref.putValue(
+          key: accessTokenParam, value: userModel.accessToken);
+      await SecureSharedPref.putValue(
+          key: refreshTokenParam, value: userModel.refreshToken);
       emit(SignUpSuccessState());
     });
   }

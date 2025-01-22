@@ -7,14 +7,15 @@ void showCustomSnackBar(BuildContext context, String message,
     Duration duration = const Duration(milliseconds: 1500)}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
+      
       content: Text(
         message,
         style: AppFontStyle.bold16.copyWith(color: AppColor.white100),
       ),
       backgroundColor: backgroundColor,
       duration: duration,
-      behavior: SnackBarBehavior.floating, // Makes it float above the content
-      margin: const EdgeInsets.all(16), // Adds margin if behavior is floating
+      behavior: SnackBarBehavior.fixed, // Makes it float above the content
+      // Adds margin if behavior is floating
     ),
   );
 }

@@ -40,6 +40,8 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   flutter_svg: ^2.0.17
   get_it: ^8.0.3
+  image_picker: ^1.1.2
+  intl: ^0.20.1
   mobkit_dashed_border: ^0.0.7
   popover: ^0.3.1
 

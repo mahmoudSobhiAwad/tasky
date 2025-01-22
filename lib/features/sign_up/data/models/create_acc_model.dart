@@ -19,7 +19,8 @@ class CreateAccountModel {
       "displayName": name,
       if (expYear != null) "experienceYears": int.tryParse(expYear ?? "0"),
       if (address != null) "address": address,
-      if(expLevel!=null) "level": expLevel //fresh , junior , midLevel , senior
+      if (expLevel != null)
+        "level": expLevel //fresh , junior , midLevel , senior
     };
   }
 }

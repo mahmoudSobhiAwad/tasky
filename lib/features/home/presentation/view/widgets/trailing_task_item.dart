@@ -37,5 +37,3 @@ class TrailingOfTaskItem extends StatelessWidget {
     );
   }
 }
-
-

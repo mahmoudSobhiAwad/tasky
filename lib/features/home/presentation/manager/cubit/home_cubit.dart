@@ -10,19 +10,27 @@ class HomeCubit extends Cubit<HomeState> {
   final HomeRepoImp homeRepoImp;
   HomeCubit({required this.homeRepoImp}) : super(HomeInitial());
 
+  bool _isProcessing = false;
+
   Future<void> logOut() async {
-    emit(LogOutLoadingState());
-    String? refreshToken =
-        await SecureSharedPref.getValues(key: refreshTokenParam);
-    if (refreshToken != null) {
-      final result = await homeRepoImp.logOut(refreshToken: refreshToken);
-      result.fold((error) {
-        emit(LogOutFailureState(errMessage: error.errMessage));
-      }, (success) async {
-        await SecureSharedPref.putValue(key: accessTokenParam, value: null);
-        await SecureSharedPref.putValue(key: accessTokenParam, value: null);
-        emit(LogOutSuccessState());
-      });
+    if (!_isProcessing) {
+      _isProcessing = true;
+      String? refreshToken =
+          await SecureSharedPref.getValues(key: refreshTokenParam);
+      if (refreshToken != null) {
+        emit(LogOutLoadingState());
+        final result = await homeRepoImp.logOut(refreshToken: refreshToken);
+        result.fold((error) {
+          error.statusCode == 403
+              ? emit(RefreshFailedState())
+              : emit(LogOutFailureState(errMessage: error.errMessage));
+        }, (success) async {
+          await SecureSharedPref.putValue(key: accessTokenParam, value: null);
+          await SecureSharedPref.putValue(key: refreshTokenParam, value: null);
+          emit(LogOutSuccessState());
+        });
+      }
+      _isProcessing = false;
     }
   }
 }
