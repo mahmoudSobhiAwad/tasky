@@ -5,6 +5,14 @@ sealed class HomeState {}
 
 final class HomeInitial extends HomeState {}
 
+final class ChangeFabVisibilityState extends HomeState {
+  final bool isFabVisible;
+
+  ChangeFabVisibilityState({required this.isFabVisible});
+}
+
+final class ChangeFilterTypeState extends HomeState {}
+
 final class LogOutLoadingState extends HomeState {}
 
 final class LogOutFailureState extends HomeState {
@@ -15,3 +23,28 @@ final class LogOutFailureState extends HomeState {
 final class RefreshFailedState extends HomeState {}
 
 final class LogOutSuccessState extends HomeState {}
+
+final class TaskState extends HomeState {}
+
+final class GetAllTasksLoadingState extends TaskState {}
+
+final class GetAllTasksSuccessState extends TaskState {
+  final List<TaskModel> tasksList;
+
+  GetAllTasksSuccessState({required this.tasksList});
+}
+
+final class GetAllTasksFailureState extends TaskState {
+  final String? errMessage;
+
+  GetAllTasksFailureState({this.errMessage});
+}
+
+final class FetchMoreLoadingState extends TaskState {}
+
+final class FetchMoreSuccessState extends TaskState {
+  final List<TaskModel> tasksList;
+  FetchMoreSuccessState({required this.tasksList});
+}
+
+final class FetchMoreFailureState extends TaskState {}

@@ -3,15 +3,24 @@ import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/features/home/presentation/view/widgets/subtitle_task_item.dart';
 
-class DescriptionAndShowMore extends StatelessWidget {
+class DescriptionAndShowMore extends StatefulWidget {
   const DescriptionAndShowMore({
     super.key,
-    required this.maxLine,
-    required this.changeMaxLine,
   });
 
-  final int? maxLine;
-  final void Function() changeMaxLine;
+  @override
+  State<DescriptionAndShowMore> createState() => _DescriptionAndShowMoreState();
+}
+
+class _DescriptionAndShowMoreState extends State<DescriptionAndShowMore> {
+  int? maxLine = testBig.length > 200 ? 2 : null;
+
+  void changeMaxLine() {
+    maxLine = maxLine == null ? 2 : null;
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(

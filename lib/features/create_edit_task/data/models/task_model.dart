@@ -23,7 +23,7 @@ class TaskModel {
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         id: json['_id'] as String?,
-        image: json['image'] as String?,
+        image: 'https://todo.iraqsapp.com/images/${json['image'] as String?}',
         title: json['title'] as String?,
         desc: json['desc'] as String?,
         priority: json['priority'] as String?,

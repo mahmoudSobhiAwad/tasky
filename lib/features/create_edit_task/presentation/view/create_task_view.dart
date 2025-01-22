@@ -5,14 +5,13 @@ import 'package:tasky/core/utils/functions/service_locator.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/widgets/common_app_bar.dart';
 import 'package:tasky/core/widgets/custom_container_decoration.dart';
-import 'package:tasky/core/widgets/custom_push_button.dart';
 import 'package:tasky/core/widgets/custom_snack_bar.dart';
 import 'package:tasky/core/widgets/custom_text_field.dart';
-import 'package:tasky/features/create_edit_task/data/models/create_edit_task_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
 import 'package:tasky/features/create_edit_task/data/repos/add_edit_task_repo_impl.dart';
 import 'package:tasky/features/create_edit_task/presentation/manager/cubit/create_edit_task_cubit.dart';
+import 'package:tasky/features/create_edit_task/presentation/view/widgets/create_task_button.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/custom_image_with_change_delete.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/task_due_date.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
@@ -67,7 +66,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                   backgroundColor: AppColor.red100);
             } else if (state is SuccessAddTaskState) {
               showCustomSnackBar(context, "Success Add Task",
-                  backgroundColor: AppColor.red100);
+                  backgroundColor: AppColor.green);
               context.pop();
             }
           },
@@ -146,37 +145,13 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                       ],
                     ),
                   )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child:
-                        BlocBuilder<CreateEditTaskCubit, CreateEditTaskState>(
-                      buildWhen: (prev, curr) {
-                        return curr is UploadTaskState;
-                      },
-                      builder: (context, state) {
-                        var cubit = context.read<CreateEditTaskCubit>();
-                        return CustomPushButton(
-                            isLoading: state is LoadingAddTaskState,
-                            onTap: () {
-                              if (imageModel.imagePath == null ||
-                                  priorityIndex == null) {
-                                showCustomSnackBar(context,
-                                    'Image or Priority can\'t be empty',
-                                    backgroundColor: AppColor.red100);
-                              } else if (_formKey.currentState!.validate()) {
-                                cubit.uploadTask(CreateEditTaskModel(
-                                    imagePath: imageModel.imagePath,
-                                    desc: descEditingController.text,
-                                    title: titleEditingController.text,
-                                    dueDate: taskDate!,
-                                    priority: pirorityList[priorityIndex ?? 0]
-                                        .title));
-                              }
-                            },
-                            title: 'Add task');
-                      },
-                    ),
-                  ),
+                  CreateTaskButton(
+                      imageModel: imageModel,
+                      priorityIndex: priorityIndex,
+                      formKey: _formKey,
+                      descEditingController: descEditingController,
+                      titleEditingController: titleEditingController,
+                      taskDate: taskDate),
                   SizedBox(),
                 ],
               ),

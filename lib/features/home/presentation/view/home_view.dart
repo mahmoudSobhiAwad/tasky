@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
@@ -13,51 +12,15 @@ import 'package:tasky/features/home/presentation/view/widgets/dialog_stay_exist.
 import 'package:tasky/features/home/presentation/view/widgets/home_body.dart';
 import 'package:tasky/features/login/presentation/view/login_view.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  final ScrollController _scrollController = ScrollController();
-  bool _isFabVisible = true;
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.reverse) {
-      if (_isFabVisible) {
-        setState(() {
-          _isFabVisible = false;
-        });
-      }
-    } else if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      if (!_isFabVisible) {
-        setState(() {
-          _isFabVisible = true;
-        });
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(homeRepoImp: getIt.get<HomeRepoImp>()),
+      create: (context) => HomeCubit(homeRepoImp: getIt.get<HomeRepoImp>())
+        ..getAllTasks()
+        ..addListenToScroll(),
       child: BlocListener<HomeCubit, HomeState>(
         listener: (context, state) {
           if (state is LogOutFailureState) {
@@ -82,21 +45,26 @@ class _HomeViewState extends State<HomeView> {
               SystemNavigator.pop();
             }
           },
-          child: Builder(builder: (context) {
-            var cubit = context.read<HomeCubit>();
-            return SafeArea(
-              child: Scaffold(
-                body: HomeBody(
-                  cubit: cubit,
-                  scrollController: _scrollController,
-                ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.endFloat,
-                floatingActionButton:
-                    _isFabVisible ? CustomFloatingButtons() : null,
+          child: SafeArea(
+            child: Scaffold(
+              body: HomeBody(),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.endFloat,
+              floatingActionButton: BlocBuilder<HomeCubit, HomeState>(
+                buildWhen: (prev, curr) {
+                  return curr is ChangeFabVisibilityState;
+                },
+                builder: (context, state) {
+                  if (state is ChangeFabVisibilityState) {
+                    return state.isFabVisible
+                        ? CustomFloatingButtons()
+                        : SizedBox();
+                  }
+                  return CustomFloatingButtons();
+                },
               ),
-            );
-          }),
+            ),
+          ),
         ),
       ),
     );

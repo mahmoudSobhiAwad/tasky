@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:tasky/core/errors/api_failures.dart';
 import 'package:tasky/core/utils/functions/api_services/to_do_api_handler.dart';
+import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 import 'package:tasky/features/home/domain/repo/home_repo.dart';
 
 class HomeRepoImp implements HomeRepo {
@@ -20,6 +21,26 @@ class HomeRepoImp implements HomeRepo {
       return e is DioException
           ? left(ServerFailure.fromDioError(e))
           : left(ServerFailure(errMessage: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TaskModel>>> getAllTasks(int pageNum,
+      {String? filterType}) async {
+    try {
+      List<TaskModel> tasksList = [];
+      final result = await apiHandlerImp.get('todos', queryParameter: {
+        'page': pageNum,
+        if (filterType != null) 'status': filterType,
+      });
+      for (var item in result.data) {
+        tasksList.add(TaskModel.fromJson(item));
+      }
+      return right(tasksList);
+    } catch (e) {
+      return left(e is DioException
+          ? ServerFailure.fromDioError(e)
+          : ServerFailure(errMessage: e.toString()));
     }
   }
 }

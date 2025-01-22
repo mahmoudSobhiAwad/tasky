@@ -9,4 +9,3 @@ List<String> experienceLevelList = const [
 const String expLevelParam = 'Choose experience Level';
 const String accessTokenParam = 'accessToken';
 const String refreshTokenParam = 'refreshToken';
-List<String> pirorityList = const ['low', 'medium', 'high'];
