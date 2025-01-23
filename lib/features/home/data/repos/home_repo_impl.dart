@@ -43,4 +43,21 @@ class HomeRepoImp implements HomeRepo {
           : ServerFailure(errMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, TaskModel>> deleteTask(
+      {required String taskId}) async {
+    try {
+      final result = await apiHandlerImp.delete('todos/$taskId');
+      if (result.statusCode == 200) {
+        return right(TaskModel.fromJson(result.data));
+      }
+      return left(ServerFailure(errMessage: 'Error in Parsing'));
+    } catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return Left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

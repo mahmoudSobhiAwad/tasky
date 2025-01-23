@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tasky/features/create_edit_task/data/models/create_edit_task_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
+import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 import 'package:tasky/features/create_edit_task/data/repos/add_edit_task_repo_impl.dart';
 
@@ -32,7 +33,7 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
   }
 
   void changePirority(int value) async {
-    emit(ChangePirorityState(value: value));
+    emit(ChangePirorityState(value: pirorityList[value]?.title));
   }
 
   void changePickedDate(DateTime time) {
@@ -47,6 +48,7 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
       result.fold((error) {
         emit(FailureUploadImageState(errMessage: error.errMessage));
       }, (path) async {
+        model.imagePath = path;
         await createTask(model);
       });
     }

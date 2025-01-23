@@ -1,11 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
+import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
 
 class SubTitleOfTaskItem extends StatelessWidget {
   const SubTitleOfTaskItem({
     super.key,
+    this.subTitle,
+    this.model,
+    this.date,
   });
+  final String? subTitle;
+  final PriorityModel? model;
+  final String? date;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +21,7 @@ class SubTitleOfTaskItem extends StatelessWidget {
       children: [
         Text(
           textAlign: TextAlign.start,
-          testBig,
+          subTitle??"",
           style: AppFontStyle.regular14.copyWith(color: AppColor.gray13),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -27,12 +34,12 @@ class SubTitleOfTaskItem extends StatelessWidget {
               color: AppColor.primary100,
             ),
             Text(
-              "Low",
-              style: AppFontStyle.medium12.copyWith(color: AppColor.primary100),
+              model?.title ?? "",
+              style: AppFontStyle.medium12.copyWith(color: model?.color),
             ),
             Spacer(),
             Text(
-              "30/12/2022",
+              date ?? "",
               style: AppFontStyle.medium12.copyWith(color: AppColor.gray13),
             ),
           ],

@@ -5,26 +5,27 @@ import 'package:tasky/core/widgets/custom_push_button.dart';
 import 'package:tasky/core/widgets/custom_snack_bar.dart';
 import 'package:tasky/features/create_edit_task/data/models/create_edit_task_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
-import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
 import 'package:tasky/features/create_edit_task/presentation/manager/cubit/create_edit_task_cubit.dart';
 
 class CreateTaskButton extends StatelessWidget {
   const CreateTaskButton({
     super.key,
     required this.imageModel,
-    required this.priorityIndex,
+    required this.priority,
     required GlobalKey<FormState> formKey,
     required this.descEditingController,
     required this.titleEditingController,
     required this.taskDate,
+    required this.isEdit,
   }) : _formKey = formKey;
 
   final ImageModel imageModel;
-  final int? priorityIndex;
+  final String? priority;
   final GlobalKey<FormState> _formKey;
   final TextEditingController descEditingController;
   final TextEditingController titleEditingController;
   final String? taskDate;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class CreateTaskButton extends StatelessWidget {
           return CustomPushButton(
               isLoading: state is LoadingAddTaskState,
               onTap: () {
-                if (imageModel.imagePath == null || priorityIndex == null) {
+                if (imageModel.imagePath == null || priority == null) {
                   showCustomSnackBar(
                       context, 'Image or Priority can\'t be empty',
                       backgroundColor: AppColor.red100);
@@ -49,10 +50,10 @@ class CreateTaskButton extends StatelessWidget {
                       desc: descEditingController.text,
                       title: titleEditingController.text,
                       dueDate: taskDate!,
-                      priority: pirorityList[priorityIndex ?? 0].title));
+                      priority: priority ?? "low"));
                 }
               },
-              title: 'Add task');
+              title: isEdit ? 'Edit Task' : 'Add task');
         },
       ),
     );

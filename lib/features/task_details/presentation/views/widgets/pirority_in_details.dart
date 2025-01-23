@@ -42,9 +42,9 @@ class PirorityInTaskDetails extends StatelessWidget {
                         onSelect != null ? onSelect!(index) : null;
                       },
                       child: Text(
-                        pirorityList[index].title,
+                        pirorityList[index]?.title??"",
                         style: AppFontStyle.bold14
-                            .copyWith(color: pirorityList[index].color),
+                            .copyWith(color: pirorityList[index]?.color),
                       ));
                 })
               ];

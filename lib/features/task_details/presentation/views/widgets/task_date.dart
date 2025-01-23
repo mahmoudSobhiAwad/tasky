@@ -7,8 +7,9 @@ import 'package:tasky/core/utils/theme/app_images.dart';
 class TaskDateInDateDetails extends StatelessWidget {
   const TaskDateInDateDetails({
     super.key,
+    this.date,
   });
-
+  final String? date;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -23,7 +24,7 @@ class TaskDateInDateDetails extends StatelessWidget {
                   AppFontStyle.regular9.copyWith(color: AppColor.grayPurple100),
             ),
             Text(
-              '30 June, 2022',
+              date ?? '',
               style: AppFontStyle.regular14,
             ),
           ],

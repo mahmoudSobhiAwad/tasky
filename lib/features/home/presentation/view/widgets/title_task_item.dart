@@ -5,8 +5,11 @@ import 'package:tasky/core/utils/theme/app_fonts.dart';
 class TitleOfTaskItem extends StatelessWidget {
   const TitleOfTaskItem({
     super.key,
+    this.taksTitle,
+    this.taskStaus,
   });
-
+  final String? taksTitle;
+  final String? taskStaus;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,7 +17,7 @@ class TitleOfTaskItem extends StatelessWidget {
       children: [
         Expanded(
             child: Text(
-          "Grocery Shopping App",
+          taksTitle ?? "",
           style: AppFontStyle.bold16,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -26,7 +29,7 @@ class TitleOfTaskItem extends StatelessWidget {
             color: AppColor.pinkSoft100,
           ),
           child: Text(
-            "Waiting",
+            taskStaus ?? "",
             style: AppFontStyle.medium12.copyWith(color: AppColor.coral100),
           ),
         ),

@@ -29,9 +29,8 @@ final class TaskState extends HomeState {}
 final class GetAllTasksLoadingState extends TaskState {}
 
 final class GetAllTasksSuccessState extends TaskState {
-  final List<TaskModel> tasksList;
 
-  GetAllTasksSuccessState({required this.tasksList});
+  GetAllTasksSuccessState();
 }
 
 final class GetAllTasksFailureState extends TaskState {
@@ -42,9 +41,12 @@ final class GetAllTasksFailureState extends TaskState {
 
 final class FetchMoreLoadingState extends TaskState {}
 
-final class FetchMoreSuccessState extends TaskState {
-  final List<TaskModel> tasksList;
-  FetchMoreSuccessState({required this.tasksList});
-}
+final class DeleteTaskSuccessState extends TaskState {}
 
-final class FetchMoreFailureState extends TaskState {}
+final class DeleteTaskLoadingState extends HomeState {}
+
+final class DeleteTaskFailureState extends HomeState {
+  final String? errMessage;
+
+  DeleteTaskFailureState({this.errMessage});
+}

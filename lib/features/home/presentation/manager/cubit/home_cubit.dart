@@ -69,8 +69,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> changeFilter(int index) async {
     if (index != filterIndex) {
       filterIndex = index;
-      pageNum = 1;
-      tasksList.clear();
       emit(ChangeFilterTypeState());
       await getAllTasks();
     }
@@ -88,6 +86,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getAllTasks() async {
+    pageNum = 1;
+    tasksList.clear();
     emit(GetAllTasksLoadingState());
     final result = await homeRepoImp.getAllTasks(pageNum,
         filterType: filterIndex != 0 ? filterList[filterIndex] : null);
@@ -96,7 +96,7 @@ class HomeCubit extends Cubit<HomeState> {
     }, (list) {
       hasMore = list.length == 20 ? true : false;
       tasksList.addAll(list);
-      emit(GetAllTasksSuccessState(tasksList: list));
+      emit(GetAllTasksSuccessState());
     });
   }
 
@@ -111,7 +111,20 @@ class HomeCubit extends Cubit<HomeState> {
       }, (list) {
         hasMore = list.length == 20 ? true : false;
         tasksList.addAll(list);
-        emit(GetAllTasksSuccessState(tasksList: list));
+        emit(GetAllTasksSuccessState());
+      });
+    }
+  }
+
+  Future<void> deleteTask(String? taskId) async {
+    if (taskId != null) {
+      emit(DeleteTaskLoadingState());
+      final result = await homeRepoImp.deleteTask(taskId: taskId);
+      result.fold((error) {
+        emit(DeleteTaskFailureState(errMessage: error.errMessage));
+      }, (task) {
+        tasksList.removeWhere((model) => model.id == task.id);
+        emit(GetAllTasksSuccessState());
       });
     }
   }

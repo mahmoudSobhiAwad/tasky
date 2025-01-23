@@ -6,4 +6,6 @@ abstract class HomeRepo {
   Future<Either<Failure, bool>> logOut({required String refreshToken});
 
   Future<Either<Failure, List<TaskModel>>> getAllTasks(int pageNum);
+
+  Future<Either<Failure, TaskModel>> deleteTask({required String taskId});
 }

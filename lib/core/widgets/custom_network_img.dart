@@ -16,8 +16,7 @@ class CustomNetworkImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      srcUrl ??
-          'https://photomarketingwizard.com/wp-content/uploads/2018/02/ecommerce-product-photography-25.jpg',
+      srcUrl ?? "",
       width: width,
       height: height,
       fit: fit,

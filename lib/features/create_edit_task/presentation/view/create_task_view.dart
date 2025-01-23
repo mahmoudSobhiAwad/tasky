@@ -9,6 +9,7 @@ import 'package:tasky/core/widgets/custom_snack_bar.dart';
 import 'package:tasky/core/widgets/custom_text_field.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
+import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 import 'package:tasky/features/create_edit_task/data/repos/add_edit_task_repo_impl.dart';
 import 'package:tasky/features/create_edit_task/presentation/manager/cubit/create_edit_task_cubit.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/create_task_button.dart';
@@ -16,27 +17,35 @@ import 'package:tasky/features/create_edit_task/presentation/view/widgets/custom
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/task_due_date.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
 
-class CreateTaskView extends StatefulWidget {
-  const CreateTaskView({super.key});
-
+class CreateOrEditTaskView extends StatefulWidget {
+  const CreateOrEditTaskView({super.key, this.taskModel});
+  final TaskModel? taskModel;
   @override
-  State<CreateTaskView> createState() => _CreateTaskViewState();
+  State<CreateOrEditTaskView> createState() => _CreateOrEditTaskViewState();
 }
 
-class _CreateTaskViewState extends State<CreateTaskView> {
+class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
   late ImageModel imageModel;
   late final TextEditingController titleEditingController;
   late final TextEditingController descEditingController;
-  int? priorityIndex;
+  String? priority;
   String? taskDate;
   late final GlobalKey<FormState> _formKey;
+  late bool isEdit = false;
 
   @override
   void initState() {
-    titleEditingController = TextEditingController();
-    descEditingController = TextEditingController();
+    isEdit = widget.taskModel != null;
+    taskDate = widget.taskModel?.createdAt;
+
+    titleEditingController =
+        TextEditingController(text: widget.taskModel?.title);
+    descEditingController = TextEditingController(text: widget.taskModel?.desc);
     _formKey = GlobalKey<FormState>();
-    imageModel = ImageModel();
+    imageModel = ImageModel(
+        imagePath: widget.taskModel?.image,
+        imageType:
+            widget.taskModel == null ? ImageType.empty : ImageType.network);
     super.initState();
   }
 
@@ -112,13 +121,14 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                           builder: (context, state) {
                             var cubit = context.read<CreateEditTaskCubit>();
                             if (state is ChangePirorityState) {
-                              priorityIndex = state.value;
+                              priority = state.value;
+                              print(priority);
                             }
                             return CustomContainerDecoration(
                                 child: PirorityInTaskDetails(
-                              pickedPriority: priorityIndex != null
-                                  ? pirorityList[priorityIndex!]
-                                  : null,
+                              pickedPriority: pirorityList.firstWhere(
+                                  (item) => item?.title == priority,
+                                  orElse: () => null),
                               onSelect: (index) {
                                 cubit.changePirority(index);
                               },
@@ -146,12 +156,14 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                     ),
                   )),
                   CreateTaskButton(
-                      imageModel: imageModel,
-                      priorityIndex: priorityIndex,
-                      formKey: _formKey,
-                      descEditingController: descEditingController,
-                      titleEditingController: titleEditingController,
-                      taskDate: taskDate),
+                    imageModel: imageModel,
+                    priority: priority,
+                    formKey: _formKey,
+                    descEditingController: descEditingController,
+                    titleEditingController: titleEditingController,
+                    taskDate: taskDate,
+                    isEdit: isEdit,
+                  ),
                   SizedBox(),
                 ],
               ),

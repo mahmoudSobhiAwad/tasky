@@ -12,7 +12,7 @@ final class ChangeCurrPictureState extends CreateEditTaskState {
 }
 
 final class ChangePirorityState extends CreateEditTaskState {
-  final int value;
+  final String? value;
 
   ChangePirorityState({required this.value});
 }

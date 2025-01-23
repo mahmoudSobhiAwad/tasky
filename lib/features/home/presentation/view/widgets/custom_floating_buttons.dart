@@ -27,7 +27,7 @@ class CustomFloatingButtons extends StatelessWidget {
         ),
         FloatingActionButton(
           onPressed: () {
-            context.push(CreateTaskView());
+            context.push(CreateOrEditTaskView());
           },
           heroTag: 'fab2',
           shape: CircleBorder(),
