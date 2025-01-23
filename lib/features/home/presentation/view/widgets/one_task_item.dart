@@ -4,16 +4,21 @@ import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/widgets/custom_dialog.dart';
 import 'package:tasky/core/widgets/custom_network_img.dart';
 import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
-import 'package:tasky/features/create_edit_task/presentation/view/create_task_view.dart';
+import 'package:tasky/features/create_edit_task/presentation/view/widgets/edit_task_view.dart';
 import 'package:tasky/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:tasky/features/home/presentation/view/widgets/subtitle_task_item.dart';
 import 'package:tasky/features/home/presentation/view/widgets/title_task_item.dart';
 import 'package:tasky/features/home/presentation/view/widgets/trailing_task_item.dart';
 
 class OneTaskItem extends StatelessWidget {
-  const OneTaskItem({super.key, required this.taskModel, required this.cubit});
+  const OneTaskItem(
+      {super.key,
+      required this.taskModel,
+      required this.cubit,
+      required this.refresh});
   final TaskModel taskModel;
   final HomeCubit cubit;
+  final void Function(TaskModel) refresh;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -22,7 +27,9 @@ class OneTaskItem extends StatelessWidget {
       contentPadding: const EdgeInsets.all(0),
       leading: ClipOval(
           child: CustomNetworkImage(
-        srcUrl: taskModel.image,
+        srcUrl: taskModel.imageModel?.imagePath,
+        width: 50,
+        height: 50,
       )),
       title: TitleOfTaskItem(
         taksTitle: taskModel.title,
@@ -34,10 +41,16 @@ class OneTaskItem extends StatelessWidget {
         date: taskModel.createdAt,
       ),
       trailing: TrailingOfTaskItem(
-        editButton: () {
-          context.push(CreateOrEditTaskView(
+        editButton: () async {
+          await context
+              .push(EditTaskView(
             taskModel: taskModel,
-          ));
+          ))
+              .then((value) {
+            if (value != null) {
+              refresh(value);
+            }
+          });
         },
         deleteTask: () {
           showDialog(

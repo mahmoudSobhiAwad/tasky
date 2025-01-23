@@ -11,21 +11,15 @@ class CreateTaskButton extends StatelessWidget {
   const CreateTaskButton({
     super.key,
     required this.imageModel,
-    required this.priority,
-    required GlobalKey<FormState> formKey,
+    required this.formKey,
     required this.descEditingController,
     required this.titleEditingController,
-    required this.taskDate,
-    required this.isEdit,
-  }) : _formKey = formKey;
+  });
 
   final ImageModel imageModel;
-  final String? priority;
-  final GlobalKey<FormState> _formKey;
+  final GlobalKey<FormState> formKey;
   final TextEditingController descEditingController;
   final TextEditingController titleEditingController;
-  final String? taskDate;
-  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -38,22 +32,24 @@ class CreateTaskButton extends StatelessWidget {
         builder: (context, state) {
           var cubit = context.read<CreateEditTaskCubit>();
           return CustomPushButton(
-              isLoading: state is LoadingAddTaskState,
+              isLoading: state is LoadingUploadTaskState,
               onTap: () {
-                if (imageModel.imagePath == null || priority == null) {
+                if (imageModel.imagePath == null || cubit.priority == null) {
                   showCustomSnackBar(
                       context, 'Image or Priority can\'t be empty',
                       backgroundColor: AppColor.red100);
-                } else if (_formKey.currentState!.validate()) {
-                  cubit.uploadTask(CreateEditTaskModel(
-                      imagePath: imageModel.imagePath,
-                      desc: descEditingController.text,
-                      title: titleEditingController.text,
-                      dueDate: taskDate!,
-                      priority: priority ?? "low"));
+                } else if (formKey.currentState!.validate()) {
+                  cubit.uploadTask(
+                    CreateEditTaskModel(
+                        imagePath: imageModel.imagePath,
+                        desc: descEditingController.text,
+                        title: titleEditingController.text,
+                        dueDate: cubit.dateTime ?? "",
+                        priority: cubit.priority?.title ?? "low"),
+                  );
                 }
               },
-              title: isEdit ? 'Edit Task' : 'Add task');
+              title: 'Add task');
         },
       ),
     );

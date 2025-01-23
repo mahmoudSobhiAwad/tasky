@@ -35,13 +35,13 @@ class ServerFailure extends Failure {
   }
 
   factory ServerFailure.fromResponse(
-      int? statusCode, Map<String, dynamic> data) {
+      int? statusCode, Map<String, dynamic>? data) {
     if (statusCode == 403) {
-      return ServerFailure(errMessage: data['message']);
+      return ServerFailure(errMessage: data?['message']);
     } else if (statusCode == 401) {
-      return ServerFailure(errMessage: data['message'], statusCode: 401);
+      return ServerFailure(errMessage: data?['message'], statusCode: 401);
     } else if (statusCode == 422) {
-      return ServerFailure(errMessage: data['message'], statusCode: 422);
+      return ServerFailure(errMessage: data?['message'], statusCode: 422);
     } else {
       return ServerFailure(
           errMessage: "Server may be not exist at that moment",

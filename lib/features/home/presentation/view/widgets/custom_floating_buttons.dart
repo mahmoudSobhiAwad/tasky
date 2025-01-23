@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
+import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/create_task_view.dart';
 
 class CustomFloatingButtons extends StatelessWidget {
   const CustomFloatingButtons({
     super.key,
+    required this.refresh,
   });
+  final void Function(TaskModel) refresh;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +29,12 @@ class CustomFloatingButtons extends StatelessWidget {
           ),
         ),
         FloatingActionButton(
-          onPressed: () {
-            context.push(CreateOrEditTaskView());
+          onPressed: () async {
+            await context.push(CreateTaskView()).then((value) {
+              if (value != null) {
+                refresh(value);
+              }
+            });
           },
           heroTag: 'fab2',
           shape: CircleBorder(),

@@ -35,14 +35,14 @@ class PirorityInTaskDetails extends StatelessWidget {
               color: AppColor.primary100,
             ),
             itemBuilder: (context) {
-              return [
+              return  [
                 ...List.generate(pirorityList.length, (index) {
                   return PopupMenuItem(
                       onTap: () {
                         onSelect != null ? onSelect!(index) : null;
                       },
                       child: Text(
-                        pirorityList[index]?.title??"",
+                        pirorityList[index]?.title ?? "",
                         style: AppFontStyle.bold14
                             .copyWith(color: pirorityList[index]?.color),
                       ));

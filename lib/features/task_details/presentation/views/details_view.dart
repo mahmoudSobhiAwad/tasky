@@ -6,9 +6,8 @@ import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/core/widgets/common_app_bar.dart';
 import 'package:tasky/core/widgets/custom_container_decoration.dart';
 import 'package:tasky/core/widgets/custom_network_img.dart';
-import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
-import 'package:tasky/features/create_edit_task/presentation/view/create_task_view.dart';
+import 'package:tasky/features/create_edit_task/presentation/view/widgets/edit_task_view.dart';
 import 'package:tasky/features/home/presentation/view/widgets/trailing_task_item.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/image_preview.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
@@ -33,7 +32,7 @@ class TaskDetailsView extends StatelessWidget {
               title: 'Task Details',
               trailingWidget: TrailingOfTaskItem(
                 editButton: () {
-                  context.pushReplacement(CreateOrEditTaskView(
+                  context.push(EditTaskView(
                     taskModel: taskModel,
                   ));
                 },
@@ -41,11 +40,13 @@ class TaskDetailsView extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: (){
-                context.push(ImagePreview(imageModel: ImageModel(imagePath: taskModel.image,imageType: ImageType.network)));
+              onTap: () {
+                context.push(ImagePreview(
+                  imageModel: taskModel.imageModel!,
+                ));
               },
               child: CustomNetworkImage(
-                srcUrl: taskModel.image,
+                srcUrl: taskModel.imageModel?.imagePath,
                 width: double.infinity,
                 height: context.screenHeight * 0.25,
                 fit: BoxFit.fitHeight,
@@ -59,10 +60,18 @@ class TaskDetailsView extends StatelessWidget {
               desc: taskModel.desc,
             ),
             CustomContainerDecoration(
-              child: TaskDateInDateDetails(date: taskModel.createdAt,),
+              child: TaskDateInDateDetails(
+                date: taskModel.createdAt,
+              ),
             ),
-            CustomContainerDecoration(child: StateInTaskDetails(status: taskModel.status,)),
-            CustomContainerDecoration(child: PirorityInTaskDetails(pickedPriority: taskModel.priority,)),
+            CustomContainerDecoration(
+                child: StateInTaskDetails(
+              status: taskModel.status?.title,
+            )),
+            CustomContainerDecoration(
+                child: PirorityInTaskDetails(
+              pickedPriority: taskModel.priority,
+            )),
             Center(
               child: QrImageView(
                 data: taskModel.id ?? "12345",

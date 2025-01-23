@@ -9,7 +9,6 @@ import 'package:tasky/core/widgets/custom_snack_bar.dart';
 import 'package:tasky/core/widgets/custom_text_field.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
-import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 import 'package:tasky/features/create_edit_task/data/repos/add_edit_task_repo_impl.dart';
 import 'package:tasky/features/create_edit_task/presentation/manager/cubit/create_edit_task_cubit.dart';
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/create_task_button.dart';
@@ -17,35 +16,26 @@ import 'package:tasky/features/create_edit_task/presentation/view/widgets/custom
 import 'package:tasky/features/create_edit_task/presentation/view/widgets/task_due_date.dart';
 import 'package:tasky/features/task_details/presentation/views/widgets/pirority_in_details.dart';
 
-class CreateOrEditTaskView extends StatefulWidget {
-  const CreateOrEditTaskView({super.key, this.taskModel});
-  final TaskModel? taskModel;
+class CreateTaskView extends StatefulWidget {
+  const CreateTaskView({
+    super.key,
+  });
   @override
-  State<CreateOrEditTaskView> createState() => _CreateOrEditTaskViewState();
+  State<CreateTaskView> createState() => _CreateTaskViewState();
 }
 
-class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
+class _CreateTaskViewState extends State<CreateTaskView> {
   late ImageModel imageModel;
   late final TextEditingController titleEditingController;
   late final TextEditingController descEditingController;
-  String? priority;
-  String? taskDate;
   late final GlobalKey<FormState> _formKey;
-  late bool isEdit = false;
 
   @override
   void initState() {
-    isEdit = widget.taskModel != null;
-    taskDate = widget.taskModel?.createdAt;
-
-    titleEditingController =
-        TextEditingController(text: widget.taskModel?.title);
-    descEditingController = TextEditingController(text: widget.taskModel?.desc);
+    titleEditingController = TextEditingController();
+    descEditingController = TextEditingController();
     _formKey = GlobalKey<FormState>();
-    imageModel = ImageModel(
-        imagePath: widget.taskModel?.image,
-        imageType:
-            widget.taskModel == null ? ImageType.empty : ImageType.network);
+    imageModel = ImageModel();
     super.initState();
   }
 
@@ -67,16 +57,16 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
             return curr is UploadTaskState;
           },
           listener: (context, state) {
-            if (state is FailureAddTaskState) {
+            if (state is FailureUploadTaskState) {
               showCustomSnackBar(context, state.errMessage ?? "",
                   backgroundColor: AppColor.red100);
             } else if (state is FailureUploadImageState) {
               showCustomSnackBar(context, state.errMessage ?? "",
                   backgroundColor: AppColor.red100);
-            } else if (state is SuccessAddTaskState) {
+            } else if (state is SuccessUploadTaskState) {
               showCustomSnackBar(context, "Success Add Task",
                   backgroundColor: AppColor.green);
-              context.pop();
+              context.pop(state.taskModel);
             }
           },
           child: Scaffold(
@@ -85,7 +75,9 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
               child: Column(
                 spacing: 24,
                 children: [
-                  CustomCommonAppBar(title: 'Add new task'),
+                  CustomCommonAppBar(
+                    title: 'Add New Task',
+                  ),
                   Expanded(
                       child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(horizontal: 12),
@@ -108,6 +100,12 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
                           label: 'Enter title here...',
                         ),
                         CustomTextFormField(
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Description Can\'t be Empty ';
+                            }
+                            return null;
+                          },
                           controller: descEditingController,
                           spacing: 8,
                           headerText: 'Task Description',
@@ -120,14 +118,11 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
                           },
                           builder: (context, state) {
                             var cubit = context.read<CreateEditTaskCubit>();
-                            if (state is ChangePirorityState) {
-                              priority = state.value;
-                              print(priority);
-                            }
+
                             return CustomContainerDecoration(
                                 child: PirorityInTaskDetails(
                               pickedPriority: pirorityList.firstWhere(
-                                  (item) => item?.title == priority,
+                                  (item) => item == cubit.priority,
                                   orElse: () => null),
                               onSelect: (index) {
                                 cubit.changePirority(index);
@@ -141,11 +136,9 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
                           },
                           builder: (context, state) {
                             var cubit = context.read<CreateEditTaskCubit>();
-                            if (state is ChangeDueDateState) {
-                              taskDate = state.date;
-                            }
+
                             return CustomTaskDueDatePicker(
-                              date: taskDate,
+                              date: cubit.dateTime,
                               changeDate: (value) {
                                 cubit.changePickedDate(value);
                               },
@@ -157,12 +150,9 @@ class _CreateOrEditTaskViewState extends State<CreateOrEditTaskView> {
                   )),
                   CreateTaskButton(
                     imageModel: imageModel,
-                    priority: priority,
                     formKey: _formKey,
                     descEditingController: descEditingController,
                     titleEditingController: titleEditingController,
-                    taskDate: taskDate,
-                    isEdit: isEdit,
                   ),
                   SizedBox(),
                 ],

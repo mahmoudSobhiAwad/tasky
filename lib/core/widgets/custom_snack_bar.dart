@@ -3,7 +3,7 @@ import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 
 void showCustomSnackBar(BuildContext context, String message,
-    {Color backgroundColor = AppColor.green100,
+    {Color backgroundColor = AppColor.green,
     Duration duration = const Duration(milliseconds: 1500)}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

@@ -11,21 +11,13 @@ final class ChangeCurrPictureState extends CreateEditTaskState {
   ChangeCurrPictureState({required this.imageModel});
 }
 
-final class ChangePirorityState extends CreateEditTaskState {
-  final String? value;
+final class ChangePirorityState extends CreateEditTaskState {}
 
-  ChangePirorityState({required this.value});
-}
-
-final class ChangeDueDateState extends CreateEditTaskState {
-  final String date;
-
-  ChangeDueDateState({required this.date});
-}
+final class ChangeDueDateState extends CreateEditTaskState {}
 
 final class UploadTaskState extends CreateEditTaskState {}
 
-final class LoadingAddTaskState extends UploadTaskState {}
+final class LoadingUploadTaskState extends UploadTaskState {}
 
 final class LoadingUploadImageState extends UploadTaskState {}
 
@@ -34,14 +26,14 @@ final class FailureUploadImageState extends UploadTaskState {
   FailureUploadImageState({this.errMessage});
 }
 
-final class SuccessAddTaskState extends UploadTaskState {
+final class SuccessUploadTaskState extends UploadTaskState {
   final TaskModel taskModel;
 
-  SuccessAddTaskState({required this.taskModel});
+  SuccessUploadTaskState({required this.taskModel});
 }
 
-final class FailureAddTaskState extends UploadTaskState {
+final class FailureUploadTaskState extends UploadTaskState {
   final String? errMessage;
 
-  FailureAddTaskState({this.errMessage});
+  FailureUploadTaskState({this.errMessage});
 }

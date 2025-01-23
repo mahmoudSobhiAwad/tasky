@@ -69,6 +69,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> changeFilter(int index) async {
     if (index != filterIndex) {
       filterIndex = index;
+
       emit(ChangeFilterTypeState());
       await getAllTasks();
     }
@@ -90,7 +91,8 @@ class HomeCubit extends Cubit<HomeState> {
     tasksList.clear();
     emit(GetAllTasksLoadingState());
     final result = await homeRepoImp.getAllTasks(pageNum,
-        filterType: filterIndex != 0 ? filterList[filterIndex] : null);
+        filterType:
+            filterIndex != 0 ? filterList[filterIndex].toLowerCase() : null);
     result.fold((error) {
       emit(GetAllTasksFailureState(errMessage: error.errMessage));
     }, (list) {
@@ -105,7 +107,8 @@ class HomeCubit extends Cubit<HomeState> {
       pageNum++;
       emit(FetchMoreLoadingState());
       final result = await homeRepoImp.getAllTasks(pageNum,
-          filterType: filterIndex != 0 ? filterList[filterIndex] : null);
+          filterType:
+              filterIndex != 0 ? filterList[filterIndex].toLowerCase() : null);
       result.fold((error) {
         emit(GetAllTasksFailureState(errMessage: error.errMessage));
       }, (list) {
@@ -114,6 +117,27 @@ class HomeCubit extends Cubit<HomeState> {
         emit(GetAllTasksSuccessState());
       });
     }
+  }
+
+  Future<void> updateTaskWithOther(TaskModel model) async {
+    tasksList.firstWhere((item) => item.id == model.id).copyWith(
+          imageModel: model.imageModel,
+          id: model.id,
+          updatedAt: model.updatedAt,
+          createdAt: model.createdAt,
+          user: model.user,
+          title: model.title,
+          desc: model.desc,
+          priority: model.priority,
+          status: model.status,
+        );
+    emit(GetAllTasksSuccessState());
+  }
+
+  Future<void> addNewTask(TaskModel model) async {
+    tasksList.insert(0, model);
+
+    emit(GetAllTasksSuccessState());
   }
 
   Future<void> deleteTask(String? taskId) async {

@@ -61,12 +61,12 @@ class HomeView extends StatelessWidget {
                   return curr is ChangeFabVisibilityState;
                 },
                 builder: (context, state) {
-                  if (state is ChangeFabVisibilityState) {
-                    return state.isFabVisible
-                        ? CustomFloatingButtons()
-                        : SizedBox();
-                  }
-                  return CustomFloatingButtons();
+                  var cubit = context.read<HomeCubit>();
+                  return cubit.isFabVisible
+                      ? CustomFloatingButtons(refresh: (task) async {
+                          await cubit.addNewTask(task);
+                        })
+                      : SizedBox();
                 },
               ),
             ),

@@ -17,22 +17,24 @@ class ImagePreview extends StatelessWidget {
           spacing: 20,
           children: [
             CustomCommonAppBar(title: 'Image Preview'),
-            InteractiveViewer(
-              child: switch (imageModel.imageType) {
-                ImageType.file =>Image.file(
-                    File(imageModel.imagePath ?? ""),
-                    errorBuilder: (context, _, s) {
-                      return Icon(
-                        Icons.error,
-                        color: AppColor.red100,
-                        size: 100,
-                      );
-                    },
-                  ),
-                ImageType.network =>
-                  CustomNetworkImage(srcUrl: imageModel.imagePath),
-                ImageType.empty => SizedBox()
-              },
+            Flexible(
+              child: InteractiveViewer(
+                child: switch (imageModel.imageType) {
+                  ImageType.file =>Image.file(
+                      File(imageModel.imagePath ?? ""),
+                      errorBuilder: (context, _, s) {
+                        return Icon(
+                          Icons.error,
+                          color: AppColor.red100,
+                          size: 100,
+                        );
+                      },
+                    ),
+                  ImageType.network =>
+                    CustomNetworkImage(srcUrl: imageModel.imagePath),
+                  ImageType.empty => SizedBox()
+                },
+              ),
             ),
           ],
         ),

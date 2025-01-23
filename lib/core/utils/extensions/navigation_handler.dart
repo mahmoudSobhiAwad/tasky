@@ -40,11 +40,11 @@ extension NavigationExtensions on BuildContext {
     Navigator.pop(this, result);
   }
 
-  void push(Widget page,
+  Future<T?> push<T>(Widget page,
       {Curve curve = Curves.easeInOut,
       Duration transationDuration = const Duration(milliseconds: 300),
       Duration reverseTransationDuration = const Duration(milliseconds: 300)}) {
-    Navigator.push(
+    return Navigator.push<T>(
       this,
       _animatedRoute(page,
           curve: curve,

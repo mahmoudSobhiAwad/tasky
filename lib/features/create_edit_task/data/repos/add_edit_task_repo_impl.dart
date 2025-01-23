@@ -27,9 +27,19 @@ class AddEditTaskRepoImpl implements AddEditTaskRepo {
   }
 
   @override
-  Future<Either<Failure, TaskModel>> editTask(CreateEditTaskModel model) {
-    // TODO: implement editTask
-    throw UnimplementedError();
+  Future<Either<Failure, TaskModel>> editTask(TaskModel model) async {
+    try {
+      final result =
+          await apiHandlerImp.put('todos/${model.id}', body: model.toJson());
+      if (result.statusCode == 200) {
+        return right(TaskModel.fromJson(result.data));
+      }
+      return left(ServerFailure(errMessage: 'Error Due Parsing'));
+    } catch (e) {
+      return e is DioException
+          ? left(ServerFailure.fromDioError(e))
+          : left(ServerFailure(errMessage: e.toString()));
+    }
   }
 
   @override

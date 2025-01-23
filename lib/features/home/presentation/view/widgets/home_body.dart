@@ -7,6 +7,7 @@ import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
 import 'package:tasky/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:tasky/features/home/presentation/view/widgets/custom_filter_type.dart';
+import 'package:tasky/features/home/presentation/view/widgets/failure_getting_data.dart';
 import 'package:tasky/features/home/presentation/view/widgets/home_app_bar.dart';
 import 'package:tasky/features/home/presentation/view/widgets/one_task_item.dart';
 import 'package:tasky/features/task_details/presentation/views/details_view.dart';
@@ -65,6 +66,14 @@ class HomeBody extends StatelessWidget {
                         padding: EdgeInsets.all(0),
                         itemBuilder: (context, index) {
                           if (index == cubit.tasksList.length) {
+                            if (state is GetAllTasksFailureState) {
+                              return FailureGettingTasks(
+                                errMessage: state.errMessage ?? "",
+                                refresh: () {
+                                  cubit.getAllTasks();
+                                },
+                              );
+                            }
                             return state is FetchMoreLoadingState
                                 ? Center(child: CircularProgressIndicator())
                                 : Center(
@@ -83,10 +92,14 @@ class HomeBody extends StatelessWidget {
                                 ));
                               },
                               child: OneTaskItem(
-                                  cubit: cubit,
-                                  taskModel: isloading
-                                      ? fakeTaskModel
-                                      : cubit.tasksList[index]));
+                                cubit: cubit,
+                                taskModel: isloading
+                                    ? fakeTaskModel
+                                    : cubit.tasksList[index],
+                                refresh: (model) async {
+                                  await cubit.updateTaskWithOther(model);
+                                },
+                              ));
                         },
                         separatorBuilder: (context, index) => SizedBox(
                               height: 5,

@@ -12,6 +12,7 @@ class CustomCommonAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 5,
       children: [
         IconButton(
             onPressed: () {
@@ -24,6 +25,7 @@ class CustomCommonAppBar extends StatelessWidget {
         ),
         Spacer(),
         trailingWidget ?? SizedBox(),
+        SizedBox()
       ],
     );
   }
