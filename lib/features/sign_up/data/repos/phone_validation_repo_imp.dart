@@ -18,7 +18,7 @@ class PhoneValidationRepoImp implements PhoneValidationRepo {
         'phone': phoneNumber,
         'api_key': ApiKeys.phoneValidationApiKey
       });
-      if (result.statusCode == 200) {
+     if (result.statusCode == 200) {
         return right(PhoneValidationModel.fromMap(result.data));
       }
       return left(ServerFailure(errMessage: 'error in parsing'));

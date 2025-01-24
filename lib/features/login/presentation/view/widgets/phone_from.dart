@@ -12,8 +12,10 @@ class PhoneFormField extends StatelessWidget {
     required this.changeCountry,
     required this.phoneController,
     this.validator,
+    this.focusNode,
   });
   final Country country;
+  final FocusNode? focusNode;
   final TextEditingController phoneController;
   final void Function(Country country) changeCountry;
   final String? Function(String?)? validator;
@@ -23,7 +25,10 @@ class PhoneFormField extends StatelessWidget {
       maxLine: 1,
       controller: phoneController,
       validator: validator,
-      onFieldSubmitted: (value) {},
+      textInputAction: TextInputAction.next,
+      onFieldSubmitted: (value) {
+        FocusScope.of(context).requestFocus(focusNode);
+      },
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],

@@ -18,28 +18,31 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   Future<void> sigUpWitValidation({required CreateAccountModel model}) async {
     emit(SignUpLoadingState());
-    bool? value = await validatePhoneNumber(phoneNumberWithCode: model.phone);
-    if (value != null && value) {
+    bool value = await validatePhoneNumber(phoneNumberWithCode: model.phone);
+
+    if (value) {
       await createAccount(model);
+    } else {
+      emit(PhoneValidationFailureState(errMessage: "Failure phone Validation"));
     }
   }
 
-  Future<bool?> validatePhoneNumber(
+  Future<bool> validatePhoneNumber(
       {required String phoneNumberWithCode}) async {
+    bool checking = false;
     final result = await phoneValidationRepoImp.validate(phoneNumberWithCode);
     result.fold((error) {
       emit(PhoneValidationFailureState(errMessage: error.errMessage));
-      return null;
-    }, (phoneModel) async {
+    }, (phoneModel) {
       if (phoneModel.valid) {
-        return true;
+        checking = true;
       } else {
         emit(PhoneValidationFailureState(
-            errMessage: 'Phone Validation Failed !!'));
-        return false;
+            errMessage: 'Phone Number is not Correct !!'));
       }
     });
-    return null;
+
+    return checking;
   }
 
   Future<void> createAccount(CreateAccountModel model) async {

@@ -32,11 +32,12 @@ class TaskDetailsView extends StatelessWidget {
               title: 'Task Details',
               trailingWidget: TrailingOfTaskItem(
                 editButton: () {
-
-                  context.push(EditTaskView(
+                  context
+                      .push(EditTaskView(
                     taskModel: taskModel,
-                  )).then((value){
-                    if(value!=null){
+                  ))
+                      .then((value) {
+                    if (context.mounted) {
                       context.pop(value);
                     }
                   });

@@ -24,11 +24,13 @@ class _LoginFormState extends State<LoginForm> {
   late final TextEditingController phoneController;
   late final TextEditingController passwordController;
   late final GlobalKey<FormState> _formKey;
+  late FocusNode passwordFocusNode;
   late Country country;
   bool isVisible = false;
 
   @override
   void initState() {
+    passwordFocusNode = FocusNode();
     _formKey = GlobalKey<FormState>();
     phoneController = TextEditingController();
     passwordController = TextEditingController();
@@ -38,6 +40,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void dispose() {
+    passwordFocusNode.dispose();
     passwordController.dispose();
     phoneController.dispose();
     super.dispose();
@@ -65,6 +68,7 @@ class _LoginFormState extends State<LoginForm> {
                 country = state.country;
               }
               return PhoneFormField(
+                focusNode: passwordFocusNode,
                 validator: (value) {
                   if (value != null && value.isEmpty) {
                     return 'Phone can\'t be Empty ';
@@ -97,6 +101,7 @@ class _LoginFormState extends State<LoginForm> {
                 },
                 isObeseureText: isVisible,
                 label: 'Password',
+                focusNode: passwordFocusNode,
                 controller: passwordController,
                 labelStyle:
                     AppFontStyle.regular14.copyWith(color: AppColor.gray13),
@@ -120,6 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                 isLoading: state is LoginLoadingState ? true : false,
                 title: 'Sign In',
                 onTap: () {
+                  passwordFocusNode.unfocus();
                   if (_formKey.currentState!.validate()) {
                     cubit.login(
                         passowrd: passwordController.text,

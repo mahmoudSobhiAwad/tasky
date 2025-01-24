@@ -96,6 +96,12 @@ class _SignUpFormState extends State<SignUpForm> {
             label: 'Years of experience...',
             controller: yearExpController,
             maxLine: 1,
+            validator: (value) {
+              if (!(value != null && value.trim().isNotEmpty)) {
+                return 'Years of experience Can\'t be empty';
+              }
+              return null;
+            },
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
@@ -111,6 +117,12 @@ class _SignUpFormState extends State<SignUpForm> {
           }),
           CustomTextFormField(
             label: 'Address...',
+            validator: (value) {
+              if (!(value != null && value.trim().isNotEmpty)) {
+                return 'Address Can\'t be empty';
+              }
+              return null;
+            },
             controller: addressController,
             maxLine: 1,
           ),
