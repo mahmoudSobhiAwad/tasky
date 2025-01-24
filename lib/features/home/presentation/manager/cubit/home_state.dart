@@ -29,7 +29,6 @@ final class TaskState extends HomeState {}
 final class GetAllTasksLoadingState extends TaskState {}
 
 final class GetAllTasksSuccessState extends TaskState {
-
   GetAllTasksSuccessState();
 }
 
@@ -49,4 +48,20 @@ final class DeleteTaskFailureState extends HomeState {
   final String? errMessage;
 
   DeleteTaskFailureState({this.errMessage});
+}
+
+final class ScanQrCodeState extends HomeState {}
+
+final class GetOneTaskLoadingState extends HomeState {}
+
+final class GetOneTaskFailureState extends HomeState {
+  final String? errMessage;
+
+  GetOneTaskFailureState({this.errMessage});
+}
+
+final class GetOneTaskSuccessState extends HomeState {
+  final TaskModel taskModel;
+
+  GetOneTaskSuccessState({required this.taskModel});
 }

@@ -44,6 +44,7 @@ dependencies:
   intl: ^0.20.1
   mobkit_dashed_border: ^0.0.7
   popover: ^0.3.1
+  qr_code_scanner_plus: ^2.0.8+1
   qr_flutter: ^4.1.0
   skeletonizer: ^1.4.3
   window_manager: ^0.4.3

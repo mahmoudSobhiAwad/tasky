@@ -8,4 +8,6 @@ abstract class HomeRepo {
   Future<Either<Failure, List<TaskModel>>> getAllTasks(int pageNum);
 
   Future<Either<Failure, TaskModel>> deleteTask({required String taskId});
+
+  Future<Either<Failure, TaskModel>> getOneTask({required String qrCodeId});
 }

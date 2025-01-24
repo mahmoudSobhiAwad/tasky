@@ -60,4 +60,21 @@ class HomeRepoImp implements HomeRepo {
       return Left(ServerFailure(errMessage: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, TaskModel>> getOneTask(
+      {required String qrCodeId}) async {
+    try {
+      final result = await apiHandlerImp.get('todos/$qrCodeId');
+      if (result.statusCode == 200) {
+        return right(TaskModel.fromJson(result.data));
+      }
+      return left(ServerFailure(errMessage: 'Error in Parsing'));
+    } on Exception catch (e) {
+      if (e is DioException) {
+        return left(ServerFailure.fromDioError(e));
+      }
+      return left(ServerFailure(errMessage: e.toString()));
+    }
+  }
 }

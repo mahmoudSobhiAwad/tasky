@@ -10,6 +10,7 @@ import 'package:tasky/features/home/presentation/manager/cubit/home_cubit.dart';
 import 'package:tasky/features/home/presentation/view/widgets/custom_floating_buttons.dart';
 import 'package:tasky/features/home/presentation/view/widgets/dialog_stay_exist.dart';
 import 'package:tasky/features/home/presentation/view/widgets/home_body.dart';
+import 'package:tasky/features/home/presentation/view/widgets/qr_scanner_view.dart';
 import 'package:tasky/features/login/presentation/view/login_view.dart';
 
 class HomeView extends StatelessWidget {
@@ -63,9 +64,16 @@ class HomeView extends StatelessWidget {
                 builder: (context, state) {
                   var cubit = context.read<HomeCubit>();
                   return cubit.isFabVisible
-                      ? CustomFloatingButtons(refresh: (task) async {
-                          await cubit.addNewTask(task);
-                        })
+                      ? CustomFloatingButtons(
+                          refresh: (task) async {
+                            await cubit.addNewTask(task);
+                          },
+                          navToQrScanner: () async {
+                            context.push(QrScannerView(
+                              homeCubit: cubit,
+                            ));
+                          },
+                        )
                       : SizedBox();
                 },
               ),

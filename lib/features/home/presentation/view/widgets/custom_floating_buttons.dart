@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
@@ -8,8 +10,10 @@ class CustomFloatingButtons extends StatelessWidget {
   const CustomFloatingButtons({
     super.key,
     required this.refresh,
+    required this.navToQrScanner,
   });
   final void Function(TaskModel) refresh;
+  final void Function()? navToQrScanner;
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +21,18 @@ class CustomFloatingButtons extends StatelessWidget {
       spacing: 12,
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        FloatingActionButton(
-          heroTag: 'fab1',
-          onPressed: null,
-          shape: CircleBorder(),
-          backgroundColor: AppColor.purplePale100,
-          child: Icon(
-            size: 24,
-            Icons.qr_code_2_rounded,
-            color: AppColor.primary100,
+        if (Platform.isAndroid || Platform.isIOS)
+          FloatingActionButton(
+            heroTag: 'fab1',
+            onPressed: navToQrScanner,
+            shape: CircleBorder(),
+            backgroundColor: AppColor.purplePale100,
+            child: Icon(
+              size: 24,
+              Icons.qr_code_2_rounded,
+              color: AppColor.primary100,
+            ),
           ),
-        ),
         FloatingActionButton(
           onPressed: () async {
             await context.push(CreateTaskView()).then((value) {

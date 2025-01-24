@@ -20,7 +20,7 @@ class HomeBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       buildWhen: (curr, prev) {
-        return (prev != curr && curr is! ChangeFabVisibilityState);
+        return ( curr is! ChangeFabVisibilityState);
       },
       builder: (context, state) {
         final cubit = context.read<HomeCubit>();

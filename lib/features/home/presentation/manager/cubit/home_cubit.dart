@@ -134,6 +134,11 @@ class HomeCubit extends Cubit<HomeState> {
     emit(GetAllTasksSuccessState());
   }
 
+  void refreshScanQr(String qrCode) {
+    emit(ScanQrCodeState());
+    getOneTask(id: qrCode);
+  }
+
   Future<void> addNewTask(TaskModel model) async {
     tasksList.insert(0, model);
 
@@ -151,5 +156,15 @@ class HomeCubit extends Cubit<HomeState> {
         emit(GetAllTasksSuccessState());
       });
     }
+  }
+
+  Future<void> getOneTask({required String id}) async {
+    emit(GetOneTaskLoadingState());
+    final result = await homeRepoImp.getOneTask(qrCodeId: id);
+    result.fold((error) {
+      emit(GetOneTaskFailureState(errMessage: error.errMessage));
+    }, (model) {
+      emit(GetOneTaskSuccessState(taskModel: model));
+    });
   }
 }
