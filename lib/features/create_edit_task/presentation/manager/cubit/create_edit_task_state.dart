@@ -13,7 +13,11 @@ final class ChangeCurrPictureState extends CreateEditTaskState {
 
 final class ChangePirorityState extends CreateEditTaskState {}
 
-final class ChangeDueDateState extends CreateEditTaskState {}
+final class ChangeDueDateState extends CreateEditTaskState {
+  final String? date;
+
+  ChangeDueDateState({this.date});
+}
 
 final class UploadTaskState extends CreateEditTaskState {}
 

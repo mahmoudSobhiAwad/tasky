@@ -48,7 +48,7 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
 
   void changePickedDate(DateTime time) {
     dateTime = DateFormat('yyyy-MM-dd').format(time);
-    emit(ChangeDueDateState());
+    emit(ChangeDueDateState(date: dateTime));
   }
 
   void changeStatus(int index) {

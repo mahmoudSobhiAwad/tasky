@@ -27,7 +27,7 @@ class EditTakButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CreateEditTaskCubit, CreateEditTaskState>(
       buildWhen: (curr, prev) {
-        return curr is UploadTaskState;
+        return curr is UploadTaskState||prev is UploadTaskState;
       },
       builder: (context, state) {
         var cubit = context.read<CreateEditTaskCubit>();

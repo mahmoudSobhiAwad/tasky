@@ -32,7 +32,7 @@ class TaskDetailsView extends StatelessWidget {
               title: 'Task Details',
               trailingWidget: TrailingOfTaskItem(
                 editButton: () {
-                  context.push(EditTaskView(
+                  context.pushReplacement(EditTaskView(
                     taskModel: taskModel,
                   ));
                 },
@@ -45,11 +45,14 @@ class TaskDetailsView extends StatelessWidget {
                   imageModel: taskModel.imageModel!,
                 ));
               },
-              child: CustomNetworkImage(
-                srcUrl: taskModel.imageModel?.imagePath,
-                width: double.infinity,
-                height: context.screenHeight * 0.25,
-                fit: BoxFit.fitHeight,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: CustomNetworkImage(
+                  srcUrl: taskModel.imageModel?.imagePath,
+                  width: double.infinity,
+                  height: context.screenHeight * 0.25,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Text(

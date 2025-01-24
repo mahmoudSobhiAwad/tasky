@@ -49,6 +49,7 @@ class SignUpView extends StatelessWidget {
                 children: [
                   SizedBox(height: 10,),
                   CustomBoardinImage(
+                    isSignUp: true,
                     height: context.screenHeight * 0.2,
                   ),
                   Padding(

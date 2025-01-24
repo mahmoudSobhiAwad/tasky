@@ -22,29 +22,40 @@ class TrailingOfTaskItem extends StatelessWidget {
             direction: PopoverDirection.bottom,
             arrowHeight: 10,
             arrowWidth: 20,
-            constraints: BoxConstraints(maxHeight: 87, maxWidth: 81),
+            constraints: BoxConstraints(
+              maxHeight: 120,
+              maxWidth: 100,
+            ),
             context: context,
             bodyBuilder: (context) => Center(
                   child: PopBodyBuilder(item: [
-                    InkWell(
-                      onTap: () {
-                        context.pop();
-                        editButton();
-                      },
-                      child: Text(
-                        "Edit",
-                        style: AppFontStyle.medium16,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: TextButton(
+                        onPressed: () {
+                          context.pop();
+                          editButton();
+                        },
+                        child: Text(
+                          maxLines: 1,
+                          "Edit",
+                          style: AppFontStyle.medium16,
+                        ),
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        context.pop();
-                        deleteTask();
-                      },
-                      child: Text(
-                        "Delete",
-                        style: AppFontStyle.medium16
-                            .copyWith(color: AppColor.coral100),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: TextButton(
+                        onPressed: () {
+                          context.pop();
+                          deleteTask();
+                        },
+                        child: Text(
+                          maxLines: 1,
+                          "Delete",
+                          style: AppFontStyle.medium16
+                              .copyWith(color: AppColor.coral100),
+                        ),
                       ),
                     ),
                   ]),

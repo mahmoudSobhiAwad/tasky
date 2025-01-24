@@ -23,11 +23,13 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   late final TextEditingController phoneController;
   late final TextEditingController passwordController;
+  late final GlobalKey<FormState> _formKey;
   late Country country;
   bool isVisible = false;
 
   @override
   void initState() {
+    _formKey = GlobalKey<FormState>();
     phoneController = TextEditingController();
     passwordController = TextEditingController();
     country = Country.parse('EG');
@@ -44,84 +46,103 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<LoginCubit>();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 20,
-      children: [
-        Text(
-          "Login",
-          style: AppFontStyle.bold24.copyWith(color: AppColor.black100),
-        ),
-        BlocBuilder<LoginCubit, LoginState>(
-          buildWhen: (prev, curr) {
-            return curr is ChangeCounrtyPickedState;
-          },
-          builder: (context, state) {
-            if (state is ChangeCounrtyPickedState) {
-              country = state.country;
-            }
-            return PhoneFormField(
-              changeCountry: (counrty) {
-                cubit.changeCountryPicked(counrty);
-              },
-              country: country,
-              phoneController: phoneController,
-            );
-          },
-        ),
-        BlocBuilder<LoginCubit, LoginState>(
-          buildWhen: (prev, curr) {
-            return curr is ChangeVisibilityState;
-          },
-          builder: (context, state) {
-            if (state is ChangeVisibilityState) {
-              isVisible = state.value;
-            }
-            return CustomTextFormField(
-              maxLine: 1,
-              isObeseureText: isVisible,
-              label: 'Password',
-              controller: passwordController,
-              labelStyle:
-                  AppFontStyle.regular14.copyWith(color: AppColor.gray13),
-              suffixWidget: IconButton(
-                  onPressed: () {
-                    cubit.changePasswordVisibility(isVisible);
-                  },
-                  icon: Icon(
-                    isVisible ? Icons.visibility_off : Icons.visibility,
-                    color: AppColor.gray100,
-                  )),
-            );
-          },
-        ),
-        BlocBuilder<LoginCubit, LoginState>(
-          buildWhen: (prev, curr) {
-            return curr is LoginProccessState;
-          },
-          builder: (context, state) {
-            return CustomPushButton(
-              isLoading: state is LoginLoadingState ? true : false,
-              title: 'Sign In',
-              onTap: () {
-                cubit.login(
-                    passowrd: passwordController.text,
-                    phoneNuber: '+${country.phoneCode}${phoneController.text}');
-              },
-              textStyle: AppFontStyle.bold16.copyWith(color: AppColor.white100),
-            );
-          },
-        ),
-        Center(
-          child: HavingAccountLoginOrSignUp(
-              mainText: 'Didn’t have any account?  ',
-              actionText: 'Sign Up here',
-              onTapActionText: () {
-                context.push(SignUpView());
-              }),
-        ),
-        const SizedBox(),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 20,
+        children: [
+          Text(
+            "Login",
+            style: AppFontStyle.bold24.copyWith(color: AppColor.black100),
+          ),
+          BlocBuilder<LoginCubit, LoginState>(
+            buildWhen: (prev, curr) {
+              return curr is ChangeCounrtyPickedState;
+            },
+            builder: (context, state) {
+              if (state is ChangeCounrtyPickedState) {
+                country = state.country;
+              }
+              return PhoneFormField(
+                validator: (value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Phone can\'t be Empty ';
+                  }
+                  return null;
+                },
+                changeCountry: (counrty) {
+                  cubit.changeCountryPicked(counrty);
+                },
+                country: country,
+                phoneController: phoneController,
+              );
+            },
+          ),
+          BlocBuilder<LoginCubit, LoginState>(
+            buildWhen: (prev, curr) {
+              return curr is ChangeVisibilityState;
+            },
+            builder: (context, state) {
+              if (state is ChangeVisibilityState) {
+                isVisible = state.value;
+              }
+              return CustomTextFormField(
+                maxLine: 1,
+                validator: (value) {
+                  if (value != null && value.isEmpty) {
+                    return 'Password can\'t be Empty ';
+                  }
+                  return null;
+                },
+                isObeseureText: isVisible,
+                label: 'Password',
+                controller: passwordController,
+                labelStyle:
+                    AppFontStyle.regular14.copyWith(color: AppColor.gray13),
+                suffixWidget: IconButton(
+                    onPressed: () {
+                      cubit.changePasswordVisibility(isVisible);
+                    },
+                    icon: Icon(
+                      isVisible ? Icons.visibility_off : Icons.visibility,
+                      color: AppColor.gray100,
+                    )),
+              );
+            },
+          ),
+          BlocBuilder<LoginCubit, LoginState>(
+            buildWhen: (prev, curr) {
+              return curr is LoginProccessState;
+            },
+            builder: (context, state) {
+              return CustomPushButton(
+                isLoading: state is LoginLoadingState ? true : false,
+                title: 'Sign In',
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    cubit.login(
+                        passowrd: passwordController.text,
+                        phoneNuber:
+                            '+${country.phoneCode}${phoneController.text}');
+                  }
+                },
+                textStyle:
+                    AppFontStyle.bold16.copyWith(color: AppColor.white100),
+              );
+            },
+          ),
+          Center(
+            child: HavingAccountLoginOrSignUp(
+                mainText: 'Didn’t have any account?  ',
+                actionText: 'Sign Up here',
+                onTapActionText: () {
+                  context.push(SignUpView());
+                }),
+          ),
+          const SizedBox(),
+        ],
+      ),
     );
   }
 }

@@ -19,8 +19,8 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
-      buildWhen: (curr, prev) {
-        return ( curr is! ChangeFabVisibilityState);
+      buildWhen: (prev, curr) {
+        return (curr is! ChangeFabVisibilityState);
       },
       builder: (context, state) {
         final cubit = context.read<HomeCubit>();
@@ -34,9 +34,30 @@ class HomeBody extends StatelessWidget {
               CustomHomeAppBar(
                 cubit: cubit,
               ),
-              Text('My Tasks',
-                  style:
-                      AppFontStyle.bold16.copyWith(color: AppColor.darkGray60)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('My Tasks',
+                      style: AppFontStyle.bold16
+                          .copyWith(color: AppColor.darkGray60)),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Text(
+                          "Refresh",
+                          style: AppFontStyle.bold16
+                              .copyWith(color: AppColor.darkGray60),
+                        ),
+                        Icon(
+                          Icons.refresh,
+                          color: AppColor.primary100,
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
@@ -76,16 +97,11 @@ class HomeBody extends StatelessWidget {
                             }
                             return state is FetchMoreLoadingState
                                 ? Center(child: CircularProgressIndicator())
-                                : Center(
-                                    child: Text(
-                                      'No More Date Exist',
-                                      style: AppFontStyle.bold18,
-                                    ),
-                                  );
+                                : SizedBox();
                           }
                           return InkWell(
-                              onTap: () {
-                                context.push(TaskDetailsView(
+                              onTap: () async {
+                                await context.push(TaskDetailsView(
                                   taskModel: isloading
                                       ? fakeTaskModel
                                       : cubit.tasksList[index],

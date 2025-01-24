@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -120,18 +122,24 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> updateTaskWithOther(TaskModel model) async {
-    tasksList.firstWhere((item) => item.id == model.id).copyWith(
-          imageModel: model.imageModel,
-          id: model.id,
-          updatedAt: model.updatedAt,
-          createdAt: model.createdAt,
-          user: model.user,
-          title: model.title,
-          desc: model.desc,
-          priority: model.priority,
-          status: model.status,
-        );
-    emit(GetAllTasksSuccessState());
+    final index = tasksList.indexWhere((item) => item.id == model.id);
+    if (index != -1) {
+      tasksList[index] = tasksList[index].copyWith(
+        imageModel: model.imageModel,
+        id: model.id,
+        updatedAt: model.updatedAt,
+        createdAt: model.createdAt,
+        user: model.user,
+        title: model.title,
+        desc: model.desc,
+        priority: model.priority,
+        status: model.status,
+      );
+      emit(GetAllTasksSuccessState());
+    } else {
+      // Handle the case where the task is not found (optional)
+      log('Task with id ${model.id} not found.');
+    }
   }
 
   void refreshScanQr(String qrCode) {

@@ -47,11 +47,7 @@ class _SplashCheckingState extends State<SplashChecking> {
   @override
   Widget build(BuildContext context) {
     if (_initialView == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold();
     }
 
     return _initialView!;

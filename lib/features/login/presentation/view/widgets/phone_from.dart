@@ -23,6 +23,7 @@ class PhoneFormField extends StatelessWidget {
       maxLine: 1,
       controller: phoneController,
       validator: validator,
+      onFieldSubmitted: (value) {},
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],

@@ -17,7 +17,7 @@ class ImagePreview extends StatelessWidget {
           spacing: 20,
           children: [
             CustomCommonAppBar(title: 'Image Preview'),
-            Flexible(
+            Expanded(
               child: InteractiveViewer(
                 child: switch (imageModel.imageType) {
                   ImageType.file =>Image.file(
