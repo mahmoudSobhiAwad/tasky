@@ -48,6 +48,7 @@ class OneTaskItem extends StatelessWidget {
           ))
               .then((value) {
             if (value != null) {
+
               refresh(value);
             }
           });

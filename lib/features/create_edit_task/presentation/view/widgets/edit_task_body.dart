@@ -41,9 +41,9 @@ class EditTaskBody extends StatelessWidget {
             ),
             Expanded(
                 child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 16,
                 children: [
                   CustomDashedImageWithChangeAndDelete(imageModel: imageModel),

@@ -53,11 +53,11 @@ extension NavigationExtensions on BuildContext {
     );
   }
 
-  void pushReplacement(Widget page,
+  Future<T?> pushReplacement<T, TO>(Widget page,
       {Curve curve = Curves.easeInOut,
-      Duration transationDuration = const Duration(milliseconds: 300),
-      Duration reverseTransationDuration = const Duration(milliseconds: 300)}) {
-    Navigator.pushReplacement(
+        Duration transationDuration = const Duration(milliseconds: 300),
+        Duration reverseTransationDuration = const Duration(milliseconds: 300)}) {
+    return Navigator.pushReplacement<T, TO>(
       this,
       _animatedRoute(page,
           curve: curve,
@@ -65,6 +65,7 @@ extension NavigationExtensions on BuildContext {
           reverseTransationDuration: reverseTransationDuration),
     );
   }
+
 
   void pushAndRemoveUntil(Widget page,
       {Curve curve = Curves.easeInOut,

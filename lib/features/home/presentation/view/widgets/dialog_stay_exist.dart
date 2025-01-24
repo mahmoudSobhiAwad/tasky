@@ -8,10 +8,10 @@ Future<bool?> showDialogToStayOrExit(BuildContext context) {
       context: context,
       builder: (context) {
         return CustomDialog(
-          bigIcon: CircleAvatar(
+          bigIcon: const CircleAvatar(
             radius: 30,
             backgroundColor: AppColor.primary100,
-            child: Center(
+            child:Center(
                 child: Icon(
               Icons.logout_rounded,
               size: 40,

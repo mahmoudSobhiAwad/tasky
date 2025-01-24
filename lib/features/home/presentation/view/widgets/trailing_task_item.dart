@@ -22,7 +22,7 @@ class TrailingOfTaskItem extends StatelessWidget {
             direction: PopoverDirection.bottom,
             arrowHeight: 10,
             arrowWidth: 20,
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxHeight: 120,
               maxWidth: 100,
             ),
@@ -36,7 +36,7 @@ class TrailingOfTaskItem extends StatelessWidget {
                           context.pop();
                           editButton();
                         },
-                        child: Text(
+                        child:const Text(
                           maxLines: 1,
                           "Edit",
                           style: AppFontStyle.medium16,
@@ -50,7 +50,7 @@ class TrailingOfTaskItem extends StatelessWidget {
                           context.pop();
                           deleteTask();
                         },
-                        child: Text(
+                        child:Text(
                           maxLines: 1,
                           "Delete",
                           style: AppFontStyle.medium16
@@ -61,7 +61,7 @@ class TrailingOfTaskItem extends StatelessWidget {
                   ]),
                 ));
       },
-      icon: Icon(Icons.more_vert),
+      icon:const Icon(Icons.more_vert),
     );
   }
 }

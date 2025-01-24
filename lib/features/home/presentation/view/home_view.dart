@@ -54,7 +54,7 @@ class HomeView extends StatelessWidget {
           },
           child: SafeArea(
             child: Scaffold(
-              body: HomeBody(),
+              body: const HomeBody(),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endFloat,
               floatingActionButton: BlocBuilder<HomeCubit, HomeState>(
@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
                             ));
                           },
                         )
-                      : SizedBox();
+                      : const SizedBox();
                 },
               ),
             ),
