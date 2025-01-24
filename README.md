@@ -21,7 +21,7 @@
 #### Framework	Flutter 3.27.1
 #### State Management	flutter_bloc: ^9.0.0
 #### Local Database	secure_flutter_storage
-#### Singelton Pattern like serice locator by using get_it.
+#### Singleton Pattern like service locator by using get_it.
 #### Date Formatting	intl
 
 
