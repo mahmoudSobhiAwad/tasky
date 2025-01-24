@@ -1,16 +1,34 @@
-# tasky
+# Tasky
+## Tasky is a feature-rich Flutter task management app designed to streamline productivity with a clean, intuitive interface. Built with modern Flutter architecture, it leverages local storage, state management, and responsive design for seamless cross-platform performance.
 
-A new Flutter project.
+## 🚀 Features
+### Task CRUD Operations: Create, Read, Update, and Delete tasks with ease.
 
-## Getting Started
+### Auth Operations: Login ,Create and Profile
 
-This project is a starting point for a Flutter application.
+### Priority Tagging: Assign priorities (Low/Medium/High) to tasks.
 
-A few resources to get you started if this is your first Flutter project:
+### Local Storage: using secure storage to save keys local.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### State Management: Robust state handling with Cubit.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Qr Code scanner:generate and scan qr code of task
+
+### Responsive UI: Optimized for mobile and tablet screens.
+
+### 🛠 Tech Stack
+#### Category	Tools/Packages
+#### Framework	Flutter 3.27.1
+#### State Management	flutter_bloc: ^9.0.0
+#### Local Database	secure_flutter_storage
+#### Singelton Pattern like serice locator by using get_it.
+#### Date Formatting	intl
+
+
+VS Code/Android Studio (IDEs)
+
+📬 Contact
+#### Mahmoud Sobhi Awad
+📧 [sobhimahmoud003@gmail.com]
+🐙 GitHub Profile
+
