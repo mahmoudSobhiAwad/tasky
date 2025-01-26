@@ -104,16 +104,19 @@ class HomeBody extends StatelessWidget {
                           }
                           return InkWell(
                               onTap: () async {
-                                await context.push(TaskDetailsView(
+                                await context
+                                    .push(TaskDetailsView(
                                   taskModel: isLoading
                                       ? fakeTaskModel
                                       : cubit.tasksList[index],
-                                )).then((value){
-                                  if(value!=null&&value is TaskModel){
-
+                                ))
+                                    .then((value) {
+                                  if (value != null && value is TaskModel) {
                                     cubit.updateTaskWithOther(value);
+                                  } else if (value != null && value is String) {
+                                    cubit.deleteTaskAfterDeleteFromDetails(
+                                        value);
                                   }
-
                                 });
                               },
                               child: OneTaskItem(

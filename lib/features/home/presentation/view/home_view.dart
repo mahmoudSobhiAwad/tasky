@@ -37,6 +37,9 @@ class HomeView extends StatelessWidget {
           } else if (state is GetAllTasksFailureState) {
             showCustomSnackBar(context, state.errMessage ?? "",
                 backgroundColor: AppColor.red100);
+          } else if (state is DeleteTaskFailureState) {
+            showCustomSnackBar(context, state.errMessage ?? "",
+                backgroundColor: AppColor.red100);
           }
         },
         child: PopScope(

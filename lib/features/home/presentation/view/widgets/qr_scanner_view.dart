@@ -38,16 +38,19 @@ class _QrScannerViewState extends State<QrScannerView> {
     return Scaffold(
       body: BlocConsumer<HomeCubit, HomeState>(
         bloc: widget.homeCubit,
-        listener: (context, state) {
+        listener: (context, state) async{
           if (state is GetOneTaskSuccessState) {
             context
                 .pushReplacement(TaskDetailsView(taskModel: state.taskModel));
           } else if (state is GetOneTaskFailureState) {
+          
             showCustomSnackBar(context, "${state.errMessage}",
                 backgroundColor: AppColor.red100);
+               await controller!.resumeCamera();
+               
           }
         },
-        buildWhen: (curr, prev) {
+        buildWhen: (prev, curr) {
           return curr is ScanQrCodeState;
         },
         builder: (context, state) {
@@ -63,7 +66,7 @@ class _QrScannerViewState extends State<QrScannerView> {
                           onPressed: () async {
                             context.pop(result?.code);
                           },
-                          child: const Text('Scanning ....',
+                          child: const Text('Finding Qr Code ....',
                               style: TextStyle(fontSize: 20)),
                         )),
             ],

@@ -53,7 +53,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
           addEditTaskRepoImpl: getIt.get<AddEditTaskRepoImpl>()),
       child: SafeArea(
         child: BlocListener<CreateEditTaskCubit, CreateEditTaskState>(
-          listenWhen: (curr, prev) {
+          listenWhen: (prev, curr) {
             return curr is UploadTaskState;
           },
           listener: (context, state) {

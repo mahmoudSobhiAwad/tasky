@@ -137,8 +137,17 @@ class HomeCubit extends Cubit<HomeState> {
       );
       emit(GetAllTasksSuccessState());
     } else {
-      // Handle the case where the task is not found (optional)
       log('Task with id ${model.id} not found.');
+    }
+  }
+
+  Future<void> deleteTaskAfterDeleteFromDetails(String taskId) async {
+    final index = tasksList.indexWhere((item) => item.id == taskId);
+    if (index != -1) {
+      tasksList.removeAt(index);
+      emit(GetAllTasksSuccessState());
+    } else {
+      log('Task with id $taskId not found.');
     }
   }
 

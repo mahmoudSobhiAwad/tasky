@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:tasky/core/utils/functions/file_size_checker.dart';
 import 'package:tasky/features/create_edit_task/data/models/create_edit_task_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/image_model.dart';
 import 'package:tasky/features/create_edit_task/data/models/priority_model.dart';
@@ -60,14 +61,17 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
 
   Future<void> uploadTask(CreateEditTaskModel model) async {
     if (model.imagePath != null) {
-      emit(LoadingUploadTaskState());
-      final result = await addEditTaskRepoImpl.uploadImage(model.imagePath!);
-      result.fold((error) {
-        emit(FailureUploadImageState(errMessage: error.errMessage));
-      }, (path) async {
-        model.imagePath = path;
-        await createTask(model);
-      });
+      if (await checkFileSize(model.imagePath!)) {
+        emit(LoadingUploadTaskState());
+        final result = await addEditTaskRepoImpl.uploadImage(model.imagePath!);
+        result.fold((error) {
+          emit(FailureUploadImageState(errMessage: error.errMessage));
+        }, (path) async {
+          model.imagePath = path;
+          await createTask(model);
+        });
+      }
+      emit(FailureUploadImageState(errMessage:'Image Size is too large more than 1 MB'));
     }
   }
 
@@ -106,3 +110,4 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
     });
   }
 }
+

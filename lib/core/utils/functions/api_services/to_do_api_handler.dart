@@ -44,6 +44,8 @@ class ApiHandlerImp implements ApiHandler {
         data: body,
         queryParameters: queryParameter,
         options: Options(
+          sendTimeout: dio.options.sendTimeout,
+          receiveTimeout: dio.options.receiveTimeout,
           contentType: contentType,
           headers: headers,
         ));
