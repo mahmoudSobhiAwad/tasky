@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tasky/core/utils/functions/api_services/to_do_api_handler.dart';
+import 'package:tasky/core/database/api/api_consumer.dart';
 import 'package:tasky/features/profile/data/model/profile_model.dart';
 import 'package:tasky/features/profile/data/repo/profile_repo_impl.dart';
 

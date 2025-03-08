@@ -12,7 +12,7 @@ final class ChangeVisibiltyOfPasswordState extends SignUpState {
 }
 
 final class ChangeCountryCodeState extends SignUpState {
-  final Country country;
+  final String country;
 
   ChangeCountryCodeState({required this.country});
 }

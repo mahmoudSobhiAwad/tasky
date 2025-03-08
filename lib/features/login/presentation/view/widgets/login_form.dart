@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
@@ -25,21 +24,23 @@ class _LoginFormState extends State<LoginForm> {
   late final TextEditingController passwordController;
   late final GlobalKey<FormState> _formKey;
   late FocusNode passwordFocusNode;
-  late Country country;
+  late FocusNode phoneNumberFocusNode;
+  String countryCode = '+20';
   bool isVisible = false;
 
   @override
   void initState() {
+    phoneNumberFocusNode = FocusNode();
     passwordFocusNode = FocusNode();
     _formKey = GlobalKey<FormState>();
     phoneController = TextEditingController();
     passwordController = TextEditingController();
-    country = Country.parse('EG');
     super.initState();
   }
 
   @override
   void dispose() {
+    phoneNumberFocusNode.dispose();
     passwordFocusNode.dispose();
     passwordController.dispose();
     phoneController.dispose();
@@ -64,22 +65,12 @@ class _LoginFormState extends State<LoginForm> {
               return curr is ChangeCounrtyPickedState;
             },
             builder: (context, state) {
-              if (state is ChangeCounrtyPickedState) {
-                country = state.country;
-              }
               return PhoneFormField(
-                focusNode: passwordFocusNode,
-                validator: (value) {
-                  if (value != null && value.isEmpty) {
-                    return 'Phone can\'t be Empty ';
-                  }
-                  return null;
-                },
-                changeCountry: (counrty) {
-                  cubit.changeCountryPicked(counrty);
-                },
-                country: country,
                 phoneController: phoneController,
+                phoneNumberFocusNode: phoneNumberFocusNode,
+                changeCountryPicked: (counrty) {
+                  countryCode = counrty.dialCode;
+                },
               );
             },
           ),
@@ -126,11 +117,11 @@ class _LoginFormState extends State<LoginForm> {
                 title: 'Sign In',
                 onTap: () {
                   passwordFocusNode.unfocus();
+                  phoneNumberFocusNode.unfocus();
                   if (_formKey.currentState!.validate()) {
                     cubit.login(
                         passowrd: passwordController.text,
-                        phoneNuber:
-                            '+${country.phoneCode}${phoneController.text}');
+                        phoneNumber: '$countryCode${phoneController.text}');
                   }
                 },
                 textStyle:

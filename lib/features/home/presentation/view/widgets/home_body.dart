@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tasky/core/utils/constants/var_contstant.dart';
+import 'package:tasky/core/utils/extensions/media_query_handler.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
 import 'package:tasky/core/utils/theme/app_colors.dart';
 import 'package:tasky/core/utils/theme/app_fonts.dart';
@@ -35,47 +36,29 @@ class HomeBody extends StatelessWidget {
               CustomHomeAppBar(
                 cubit: cubit,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('My Tasks',
-                      style: AppFontStyle.bold16
-                          .copyWith(color: AppColor.darkGray60)),
-                  InkWell(
-                    onTap: () {
-                      cubit.getAllTasks();
+              Text('My Tasks',
+                  style: AppFontStyle.bold16
+                      .copyWith(color: AppColor.darkGray60)),
+              SizedBox(
+                height: 40,
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          cubit.changeFilter(index);
+                        },
+                        child: CustomFilterType(
+                            isPicked: index == cubit.filterIndex,
+                            filterName: filterList[index]),
+                      );
                     },
-                    child: Row(
-                      children: [
-                        Text(
-                          "Refresh",
-                          style: AppFontStyle.bold16
-                              .copyWith(color: AppColor.darkGray60),
-                        ),
-                        Icon(
-                          Icons.refresh,
-                          color: AppColor.primary100,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  ...List.generate(filterList.length, (index) {
-                    return InkWell(
-                      onTap: () {
-                        cubit.changeFilter(index);
-                      },
-                      child: CustomFilterType(
-                          isPicked: index == cubit.filterIndex,
-                          filterName: filterList[index]),
-                    );
-                  }),
-                ],
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        width: 10,
+                      );
+                    },
+                    itemCount: filterList.length),
               ),
               Expanded(
                 child: Skeletonizer(
@@ -86,6 +69,7 @@ class HomeBody extends StatelessWidget {
                       await cubit.getAllTasks();
                     },
                     child: ListView.separated(
+                        physics: AlwaysScrollableScrollPhysics(),
                         controller: cubit.scrollController,
                         padding: EdgeInsets.all(0),
                         itemBuilder: (context, index) {

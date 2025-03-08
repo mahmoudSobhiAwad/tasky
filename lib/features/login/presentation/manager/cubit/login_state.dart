@@ -6,7 +6,7 @@ sealed class LoginState {}
 final class LoginInitial extends LoginState {}
 
 final class ChangeCounrtyPickedState extends LoginState {
-  final Country country;
+  final String country;
 
   ChangeCounrtyPickedState({required this.country});
 }

@@ -70,8 +70,10 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
           model.imagePath = path;
           await createTask(model);
         });
+      } else {
+        emit(FailureUploadImageState(
+            errMessage: 'Image Size is too large more than 1 MB'));
       }
-      emit(FailureUploadImageState(errMessage:'Image Size is too large more than 1 MB'));
     }
   }
 
@@ -110,4 +112,3 @@ class CreateEditTaskCubit extends Cubit<CreateEditTaskState> {
     });
   }
 }
-

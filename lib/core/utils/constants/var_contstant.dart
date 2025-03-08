@@ -3,6 +3,7 @@ import 'package:tasky/features/create_edit_task/data/models/task_model.dart';
 
 const String fontFamily = 'DM Sans';
 List<String> filterList = const ['All', 'InProgress', 'Waiting', 'Finished'];
+const String baseUrl='https://todo.iraqsapp.com/';
 List<String> experienceLevelList = const [
   'fresh',
   'junior',

@@ -1,4 +1,3 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +13,8 @@ import 'package:tasky/features/sign_up/presentation/view/widgets/sign_up_passwor
 import 'package:tasky/features/sign_up/presentation/view/widgets/exp_level.dart';
 
 class SignUpForm extends StatefulWidget {
-  const SignUpForm({super.key});
-
+  const SignUpForm({super.key, this.pickedCountryCode});
+  final String? pickedCountryCode;
   @override
   State<SignUpForm> createState() => _SignUpFormState();
 }
@@ -27,8 +26,8 @@ class _SignUpFormState extends State<SignUpForm> {
   String expLevel = expLevelParam;
   late final TextEditingController addressController;
   late final TextEditingController passwordController;
-  late Country country;
   final _formKey = GlobalKey<FormState>();
+  late String countryCode;
 
   @override
   void initState() {
@@ -37,7 +36,7 @@ class _SignUpFormState extends State<SignUpForm> {
     yearExpController = TextEditingController();
     addressController = TextEditingController();
     passwordController = TextEditingController();
-    country = Country.parse('EG');
+    countryCode = widget.pickedCountryCode ?? "+20";
     super.initState();
   }
 
@@ -74,21 +73,13 @@ class _SignUpFormState extends State<SignUpForm> {
               return curr is ChangeCountryCodeState;
             },
             builder: (context, state) {
-              if (state is ChangeCountryCodeState) {
-                country = state.country;
-              }
+              if (state is ChangeCountryCodeState) {}
               return PhoneFormField(
-                validator: (value) {
-                  if (!(value != null && value.trim().isNotEmpty)) {
-                    return 'Phone Can\'t be empty';
-                  }
-                  return null;
-                },
                 phoneController: phoneController,
-                changeCountry: (country) {
-                  context.read<SignUpCubit>().changeCountryPicked(country);
+                initialCountryCode: countryCode,
+                changeCountryPicked: (counrty) {
+                  countryCode = counrty.dialCode;
                 },
-                country: country,
               );
             },
           ),
@@ -137,8 +128,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 title: 'Sign up',
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    context.read<SignUpCubit>().sigUpWitValidation(
-                        model: CreateAccountModel(
+                    context.read<SignUpCubit>().createAccount(
+                        CreateAccountModel(
                             name: nameController.text,
                             address: addressController.text.isEmpty
                                 ? null
@@ -149,8 +140,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             expYear: yearExpController.text.isEmpty
                                 ? null
                                 : yearExpController.text,
-                            phone:
-                                '+${country.phoneCode}${phoneController.text}'));
+                            phone: '+$countryCode${phoneController.text}'));
                   }
                 },
                 textStyle:

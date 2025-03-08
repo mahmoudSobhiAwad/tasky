@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tasky/core/utils/extensions/navigation_handler.dart';
@@ -34,7 +36,7 @@ class CustomPickImageSource extends StatelessWidget {
             spacing: 50,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
+             if(Platform.isAndroid||Platform.isIOS) InkWell(
                 onTap: () {
                   context.pop(ImageSource.camera);
                 },
